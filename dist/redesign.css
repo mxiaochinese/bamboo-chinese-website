@@ -37,8 +37,9 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .eyebrow { margin-bottom: 10px; color: var(--green-dark); font-size: 13px; letter-spacing: .11em; }
 
 .site-header { border-color: #e2eadf; background: rgba(255, 255, 255, .97); }
-.nav-shell { min-height: 74px; gap: 20px; }
-.brand-logo { width: 142px; }
+.nav-shell { min-height: 86px; gap: 20px; }
+.site-header .brand { padding: 6px 0; }
+.site-header .brand-logo { width: 112px; }
 .desktop-nav { gap: 8px; }
 .nav-item { position: relative; display: flex; align-items: center; }
 .nav-link { padding: 26px 10px 22px; color: #294c31; font-size: 14px; font-weight: 700; }
@@ -217,7 +218,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .desktop-nav { display: none; }
   .nav-shell > .button { display: inline-flex; margin-left: auto; }
   .mobile-toggle { display: inline-grid; place-items: center; }
-  .mobile-nav { display: none; position: fixed; inset: 75px 0 0; z-index: 49; padding: 18px 0 30px; overflow-y: auto; background: white; }
+  .mobile-nav { display: none; position: fixed; inset: 87px 0 0; z-index: 49; padding: 18px 0 30px; overflow-y: auto; background: white; }
   body.menu-open .mobile-nav { display: block; }
   .mobile-nav-links { display: grid; gap: 5px; }
   .mobile-nav .nav-item { display: grid; }
@@ -275,7 +276,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   body { font-size: 16px; }
   h1 { font-size: 48px; }
   h2 { font-size: 35px; }
-  .brand-logo { width: 126px; }
+  .site-header .brand-logo { width: 104px; }
   .hero-visual { height: 315px; min-height: 315px; border-width: 6px; box-shadow: 12px 14px 0 rgba(255, 153, 0, .24), var(--shadow-soft); }
   .hero-visual > img { object-position: 70% center; }
   .hero-benefits { grid-template-columns: 1fr 1fr; }
