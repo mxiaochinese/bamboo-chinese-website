@@ -30,7 +30,7 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -.04em; }
 h1 { font-size: clamp(50px, 6vw, 82px); }
 h2 { font-size: clamp(36px, 4.2vw, 58px); }
 h3 { font-size: clamp(21px, 2vw, 28px); }
-.lede { color: var(--muted); font-size: 19px; line-height: 1.62; }
+.lede { color: #34543d; font-size: 19px; font-weight: 600; line-height: 1.62; }
 .section { padding: 62px 0; }
 .section.compact { padding: 46px 0; }
 .section-heading { margin-bottom: 28px; }
@@ -79,7 +79,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .hero-photo-card strong { display: flex; align-items: center; gap: 8px; }
 
 .split-heading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr); gap: 54px; align-items: end; margin-bottom: 30px; }
-.split-heading p:last-child { margin: 0; color: var(--muted); font-size: 18px; }
+.split-heading p:last-child { margin: 0; color: var(--muted); font-size: 18px; font-weight: 600; }
 .split-heading.light h2, .split-heading.light p { color: white; }
 .split-heading.light .eyebrow { color: #ffd27f; }
 
@@ -200,6 +200,8 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .course-hero-grid { min-height: 500px; }
 .course-image-frame.book-frame { display: grid; height: 465px; place-items: center; border: 0; background: var(--cream); }
 .course-image-frame.book-frame img { width: auto; height: 90%; object-fit: contain; filter: drop-shadow(0 18px 16px rgba(20, 51, 28, .2)); }
+.lesson-grid > .lesson-card { position: static; right: auto; bottom: auto; width: auto; background: linear-gradient(145deg, #08751b, #075522); }
+.lesson-grid > .lesson-card p { color: rgba(255,255,255,.9); font-weight: 600; }
 .price-callout { background: var(--green-deep); }
 .price-callout .price-discount { color: #ffd17c; font-size: 22px; }
 .price-callout del { font-size: 18px; }
