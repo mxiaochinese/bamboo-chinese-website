@@ -47,7 +47,7 @@ function header() {
   return `
     <header class="site-header">
       <div class="container nav-shell">
-        <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-color.png" alt="Bamboo Chinese"><span class="brand-by">by MXiao Chinese</span></a>
+        <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-color-large.png" alt="Bamboo Chinese"></a>
         <nav class="desktop-nav" aria-label="Điều hướng chính">${navLinks}</nav>
         ${link("Tìm lớp cho con", "/tim-lop-cho-con", "button primary small")}
         <button class="mobile-toggle" type="button" aria-label="Mở menu" aria-expanded="false" data-menu-toggle>${icon("menu", 25)}</button>
@@ -64,7 +64,7 @@ function footer() {
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-white.png" alt="Bamboo Chinese"><span class="brand-by">by MXiao Chinese</span></a>
+            <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-white-large.png" alt="Bamboo Chinese"></a>
             <p>Tiếng Trung dành riêng cho trẻ 6-12 tuổi, với một hành trình học rõ ràng từ YCT1 đến YCT6.</p>
           </div>
           <div><p class="footer-title">Khám phá</p><div class="footer-links">${link("Lộ trình học", "/lo-trinh")}${link("Cách Bamboo dạy", "/cach-bamboo-day")}${link("Tiến bộ của con", "/tien-bo-cua-con")}</div></div>
