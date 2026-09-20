@@ -1,11 +1,12 @@
 const COURSE_FILES = [1, 2, 3, 4, 5, 6].map((level) => `/data/yct-${level}.json`);
+const TEACHER_FILE = "/data/teachers.json";
 const NAV_ITEMS = [
-  ["Lộ trình học", "/lo-trinh"],
-  ["Cách Bamboo dạy", "/cach-bamboo-day"],
-  ["Tiến bộ của con", "/tien-bo-cua-con"],
-  ["Giáo viên", "/giao-vien"],
-  ["Góc phụ huynh", "/goc-phu-huynh"],
-  ["Bài viết", "/bai-viet"],
+  { label: "Trang chủ", href: "/" },
+  { label: "Khóa học", href: "/lo-trinh", children: [1, 2, 3, 4, 5, 6].map((level) => ({ label: `Khóa YCT${level}`, href: `/lo-trinh/yct-${level}` })) },
+  { label: "Phương pháp học", href: "/cach-bamboo-day" },
+  { label: "Đội ngũ giáo viên", href: "/giao-vien" },
+  { label: "Tiến bộ của con", href: "/tien-bo-cua-con" },
+  { label: "Liên hệ", href: "/lien-he" },
 ];
 
 const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({
@@ -16,8 +17,10 @@ const formatPrice = (value) => `${Number(value).toLocaleString("vi-VN")}đ`;
 const typeLabel = { lesson: "Buổi học", review: "Ôn tập", assessment: "Đánh giá" };
 const levelPath = (level) => `/lo-trinh/yct-${level}`;
 const courseImage = (level, kind = "journey") => `/assets/courses/yct-${level}-${kind}.jpg`;
+const courseBook = (level) => `/assets/books/YCT${level}.png`;
 
 let courses = [];
+let teachersData = [];
 
 function currentPath() {
   const path = window.location.pathname.replace(/\/+$/, "");
@@ -28,28 +31,42 @@ function link(label, href, className = "") {
   return `<a class="${className}" href="${href}">${escapeHTML(label)}</a>`;
 }
 
+function htmlLink(content, href, className = "") {
+  return `<a class="${className}" href="${href}">${content}</a>`;
+}
+
 function icon(name, size = 20) {
-  const paths = {
-    arrow: `<path d="M4 12h15M13 6l6 6-6 6"/>`,
-    menu: `<path d="M4 7h16M4 12h16M4 17h16"/>`,
-    close: `<path d="m6 6 12 12M18 6 6 18"/>`,
-    check: `<path d="m5 12 4 4L19 6"/>`,
-    leaf: `<path d="M19 4C10 4 5 8 5 15c0 3 2 5 5 5 7 0 9-7 9-16Z"/><path d="M5 20c3-5 6-8 12-11"/>`,
-    plus: `<path d="M12 5v14M5 12h14"/>`,
+  const names = {
+    arrow: "fa-arrow-right",
+    menu: "fa-bars",
+    close: "fa-xmark",
+    check: "fa-check",
+    leaf: "fa-leaf",
+    plus: "fa-plus",
+    book: "fa-book-open",
+    users: "fa-people-group",
+    chart: "fa-chart-simple",
+    calendar: "fa-calendar-days",
+    headphones: "fa-headphones",
+    message: "fa-comments",
+    pen: "fa-pen",
+    graduation: "fa-graduation-cap",
+    shield: "fa-shield-heart",
+    star: "fa-star",
   };
-  return `<svg aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${paths[name] || paths.arrow}</svg>`;
+  return `<i aria-hidden="true" class="fa-solid ${names[name] || names.arrow}" style="font-size:${size}px"></i>`;
 }
 
 function header() {
   const path = currentPath();
   const isActive = (href) => path === href || (href !== "/" && path.startsWith(`${href}/`));
-  const navLinks = NAV_ITEMS.map(([label, href]) => link(label, href, `nav-link${isActive(href) ? " active" : ""}`)).join("");
+  const navLinks = NAV_ITEMS.map((item) => `<div class="nav-item${item.children ? " has-dropdown" : ""}">${link(item.label, item.href, `nav-link${isActive(item.href) ? " active" : ""}`)}${item.children ? `<button class="nav-caret" type="button" aria-label="Mở danh sách khóa học">${icon("arrow", 12)}</button><div class="course-dropdown">${item.children.map((child) => link(child.label, child.href, isActive(child.href) ? "active" : "")).join("")}</div>` : ""}</div>`).join("");
   return `
     <header class="site-header">
       <div class="container nav-shell">
         <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-color-large.png" alt="Bamboo Chinese"></a>
         <nav class="desktop-nav" aria-label="Điều hướng chính">${navLinks}</nav>
-        ${link("Tìm lớp cho con", "/tim-lop-cho-con", "button primary small")}
+        ${htmlLink(`${icon("message", 16)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button primary small html-link")}
         <button class="mobile-toggle" type="button" aria-label="Mở menu" aria-expanded="false" data-menu-toggle>${icon("menu", 25)}</button>
       </div>
       <div class="mobile-nav" data-mobile-nav>
@@ -67,8 +84,8 @@ function footer() {
             <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-white-large.png" alt="Bamboo Chinese"></a>
             <p>Tiếng Trung dành riêng cho trẻ 6-12 tuổi, với một hành trình học rõ ràng từ YCT1 đến YCT6.</p>
           </div>
-          <div><p class="footer-title">Khám phá</p><div class="footer-links">${link("Lộ trình học", "/lo-trinh")}${link("Cách Bamboo dạy", "/cach-bamboo-day")}${link("Tiến bộ của con", "/tien-bo-cua-con")}</div></div>
-          <div><p class="footer-title">Đồng hành</p><div class="footer-links">${link("Góc phụ huynh", "/goc-phu-huynh")}${link("Bài viết", "/bai-viet")}${link("Giáo viên", "/giao-vien")}</div></div>
+          <div><p class="footer-title">Khóa học</p><div class="footer-links">${link("Lộ trình YCT1-YCT6", "/lo-trinh")}${link("Tìm khóa phù hợp", "/tim-lop-cho-con")}${link("Học phí", "/lo-trinh")}</div></div>
+          <div><p class="footer-title">Bamboo</p><div class="footer-links">${link("Phương pháp học", "/cach-bamboo-day")}${link("Đội ngũ giáo viên", "/giao-vien")}${link("Tiến bộ của con", "/tien-bo-cua-con")}</div></div>
           <div><p class="footer-title">Bắt đầu</p><div class="footer-links">${link("Tìm lớp cho con", "/tim-lop-cho-con")}${link("Liên hệ", "/lien-he")}${link("Về Bamboo", "/ve-bamboo")}</div></div>
         </div>
         <div class="footer-bottom"><span>© Bamboo Chinese</span><span>Phát triển bởi MXiao Chinese</span></div>
@@ -81,20 +98,27 @@ function shell(content) {
 }
 
 function pageHero(eyebrow, title, description, symbol = "竹") {
-  return `<section class="page-hero"><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true">${symbol}</div></div></section>`;
+  return `<section class="page-hero"><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true">${icon("book", 54)}<strong>${escapeHTML(symbol)}</strong></div></div></section>`;
 }
 
 function yctJourney() {
   return `
-    <div class="journey-track" aria-hidden="true"><span></span><span></span><span></span></div>
-    <div class="journey-grid">
-      ${courses.map((course, index) => `<a class="journey-card" href="${levelPath(course.level)}"><div class="journey-art"><img src="${courseImage(course.level, "poster")}" alt="" loading="lazy"><span class="journey-spark">${index % 2 === 0 ? "✦" : "●"}</span></div><div class="journey-content"><span class="journey-level">YCT${course.level}</span><h3>${escapeHTML(course.title)}</h3><p>${course.duration.totalSessions} buổi · ${course.duration.lessonSessions} buổi học · ${course.duration.reviewSessions} buổi ôn tập</p><div class="journey-card-footer"><span>${course.level === 1 ? "Bắt đầu hành trình" : "Tiếp tục hành trình"}</span><span class="arrow-link" aria-hidden="true">${icon("arrow", 18)}</span></div></div></a>`).join("")}
+    <div class="course-shelf">
+      ${courses.map((course) => `<a class="shelf-course level-${course.level}" href="${levelPath(course.level)}"><div class="book-stage"><span class="level-orbit">${course.level}</span><img src="${courseBook(course.level)}" alt="Giáo trình YCT${course.level}" loading="lazy"></div><div class="shelf-copy"><span class="journey-level">YCT${course.level}</span><h3>${escapeHTML(course.title)}</h3><p>${course.duration.totalSessions} buổi · lớp ${course.classSize.maxOnline}-${course.classSize.maxOffline} bạn</p><div class="shelf-price"><del>${formatPrice(course.pricing.listPrice)}</del><strong>Giảm ${formatPrice(course.pricing.discountAmount)}</strong></div><span class="shelf-link">Xem khóa học ${icon("arrow", 14)}</span></div></a>`).join("")}
     </div>`;
 }
 
 function rhythmCards() {
   const yct1 = courses[0];
-  return `<div class="rhythm-grid"><article class="rhythm-card"><div class="rhythm-icon">01</div><h3>Học</h3><p>Các buổi học mới mở rộng từng bước qua Nghe, Nói, Đọc và Viết.</p><small>${yct1?.duration.lessonSessions || 22} buổi ở YCT1-YCT4 · ${courses[4]?.duration.lessonSessions || 28} buổi ở YCT5-YCT6</small></article><article class="rhythm-card green"><div class="rhythm-icon">02</div><h3>Ôn tập</h3><p>Mỗi chặng có mốc ôn tập để nhìn lại nội dung đã đi qua và củng cố nền tảng.</p><small>4 hoặc 5 mốc tùy cấp độ</small></article><article class="rhythm-card orange"><div class="rhythm-icon">03</div><h3>Đánh giá</h3><p>Hai buổi cuối khóa tách thành Nghe - Nói và Đọc - Viết.</p><small>Không thay thế tư vấn xếp lớp</small></article></div>`;
+  return `<div class="learning-flow"><article><span class="flow-icon">${icon("book", 25)}</span><div><small>01</small><h3>Học</h3><p>Khám phá kiến thức mới qua Nghe, Nói, Đọc và Viết.</p><strong>${yct1?.duration.lessonSessions || 22} hoặc ${courses[4]?.duration.lessonSessions || 28} buổi học</strong></div></article><span class="flow-arrow">${icon("arrow", 20)}</span><article><span class="flow-icon orange">${icon("star", 25)}</span><div><small>02</small><h3>Ôn tập</h3><p>Củng cố sau từng chặng bằng hoạt động và bài tập có mục tiêu.</p><strong>4 hoặc 5 mốc ôn tập</strong></div></article><span class="flow-arrow">${icon("arrow", 20)}</span><article><span class="flow-icon blue">${icon("chart", 25)}</span><div><small>03</small><h3>Đánh giá</h3><p>Nhìn lại Nghe - Nói và Đọc - Viết ở cuối mỗi cấp độ.</p><strong>2 buổi đánh giá cuối khóa</strong></div></article></div>`;
+}
+
+function teacherCard(teacher, compact = false) {
+  return `<a class="teacher-card${compact ? " compact" : ""}" href="/giao-vien/${teacher.id}"><div class="teacher-photo"><img src="${teacher.avatar}" alt="Giáo viên ${escapeHTML(teacher.name)}" loading="lazy"><span>${icon("graduation", 16)}</span></div><div class="teacher-copy"><p>${escapeHTML(teacher.role)}</p><h3>${escapeHTML(teacher.name)}</h3><div class="teacher-badges">${teacher.badges.slice(0, compact ? 2 : 3).map((badge) => `<span>${escapeHTML(badge)}</span>`).join("")}</div>${compact ? "" : `<p class="teacher-experience">${escapeHTML(teacher.experience)}</p>`}<span class="teacher-more">Xem hồ sơ ${icon("arrow", 13)}</span></div></a>`;
+}
+
+function teacherShowcase(limit = 6) {
+  return `<div class="teacher-strip">${teachersData.slice(0, limit).map((teacher) => teacherCard(teacher, true)).join("")}</div>`;
 }
 
 function finder() {
@@ -111,15 +135,13 @@ function priceCards() {
 
 function home() {
   return shell(`
-    <section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">TIẾNG TRUNG DÀNH RIÊNG CHO TRẺ 6-12 TUỔI</p><h1>Học từng bước.<br><span style="color:var(--green)">Tiến bộ từng ngày.</span></h1><p class="lede">Một hành trình tiếng Trung rõ ràng cho phụ huynh và đủ gần gũi để trẻ muốn tiếp tục học mỗi ngày.</p><div class="hero-actions">${link("Tìm lộ trình cho con", "/tim-lop-cho-con", "button primary")}${link("Xem lộ trình YCT", "/lo-trinh", "button secondary")}</div><p class="hero-note"><span></span>Được phát triển bởi MXiao Chinese</p></div><div class="hero-visual" aria-label="Hình ảnh Bamboo Chinese"><div class="hero-photo"><img src="/assets/brand/cover.jpg" alt="Trẻ học tiếng Trung cùng giáo trình YCT" loading="eager"><div class="hero-photo-card"><strong>YCT1 → YCT6</strong><span>Học · Ôn tập · Đánh giá theo từng chặng</span></div></div></div></div></section>
-    <div class="proof-strip"><div class="container proof-grid"><div class="proof-item">6-12 tuổi</div><div class="proof-item">6-8 bạn/lớp</div><div class="proof-item">Nghe - Nói - Đọc - Viết</div><div class="proof-item">YCT1-YCT6</div></div></div>
-    <section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">BẮT ĐẦU TỪ CÂU HỎI CỦA GIA ĐÌNH</p><h2>Con nên bắt đầu từ đâu?</h2><p class="lede">Không cần hiểu hết YCT trước. Hãy bắt đầu từ tình trạng học hiện tại của con.</p></div>${finder()}</div></section>
-    <section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">MỘT HÀNH TRÌNH LIÊN TỤC</p><h2>YCT1 đến YCT6</h2><p class="lede">Sáu cấp độ được kết nối thành một đường đi để gia đình dễ hình dung bước tiếp theo.</p></div>${yctJourney()}</div></section>
-    <section class="section"><div class="container"><div class="lesson-grid"><div class="lesson-showcase"><figure class="lesson-photo"><img src="/assets/brand/classroom-learning-v1.png" alt="Trẻ học cùng giáo viên trong không gian lớp nhỏ" loading="lazy"></figure><div class="lesson-card"><div class="lesson-card-top"><span class="mini-label" style="color:var(--orange)">MỘT BUỔI HỌC TẠI BAMBOO</span><span class="lesson-time">90 phút</span></div><h3>Học qua bốn kỹ năng, từng nhịp vừa đủ.</h3><div class="lesson-sequence"><div class="sequence-item"><span class="sequence-dot">01</span><span>Nghe</span></div><div class="sequence-item"><span class="sequence-dot">02</span><span>Nói</span></div><div class="sequence-item"><span class="sequence-dot">03</span><span>Đọc · Viết</span></div></div></div></div><div class="lesson-copy"><div class="section-heading"><p class="eyebrow">CÁCH HỌC</p><h2>Một buổi học có cấu trúc, không nặng nề.</h2><p class="lede">Bamboo giữ cho phụ huynh biết con đang học gì, trong khi trẻ có đủ không gian để thực hành.</p></div><ul class="fact-list"><li><strong>6 bạn</strong><span>Tối đa ở lớp trực tuyến</span></li><li><strong>8 bạn</strong><span>Tối đa ở lớp trực tiếp</span></li><li><strong>4 kỹ năng</strong><span>Nghe - Nói - Đọc - Viết</span></li><li><strong>YCT1-YCT6</strong><span>Hành trình liên tục</span></li></ul></div></div></div></section>
-    <section class="section soft"><div class="container"><div class="section-heading center"><p class="eyebrow">NHỊP CHƯƠNG TRÌNH</p><h2>Học - Ôn tập - Đánh giá</h2><p class="lede">Mỗi cấp độ có những mốc rõ ràng để việc học không bị đứt quãng.</p></div>${rhythmCards()}</div></section>
-    <section class="section"><div class="container">${progressPreview()}</div></section>
-    <section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">LỘ TRÌNH VÀ HỌC PHÍ</p><h2>Chọn chặng phù hợp để bắt đầu.</h2><p class="lede">Mỗi cấp độ dùng chung cấu trúc giá minh bạch và dữ liệu curriculum trong hành trình Bamboo.</p></div>${priceCards()}</div></section>
-    <section class="section"><div class="container"><div class="cta-banner"><p class="eyebrow">BẠN ĐANG TÌM BƯỚC TIẾP THEO?</p><h2>Chưa chắc con nên bắt đầu từ đâu?</h2><p>Để lại thông tin cơ bản về con, Bamboo sẽ có cơ sở để cùng gia đình trao đổi lựa chọn phù hợp.</p>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
+    <section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="hero-badge">${icon("star", 14)} TIẾNG TRUNG CHO TRẺ 6-12 TUỔI</p><h1>Học là vui.<br><span>Vui là nhớ.</span></h1><p class="lede">Lộ trình YCT1-YCT6 rõ ràng để phụ huynh biết con đang học gì, trẻ được luyện đủ bốn kỹ năng và tiến bộ theo từng chặng.</p><div class="hero-actions">${htmlLink(`${icon("message", 17)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button primary")}${htmlLink(`<span>Khám phá khóa học</span>${icon("arrow", 15)}`, "/lo-trinh", "button secondary")}</div><div class="hero-benefits"><div>${icon("users", 19)}<span><strong>Lớp nhỏ</strong>6-8 bạn</span></div><div>${icon("book", 19)}<span><strong>Giáo trình</strong>YCT chuẩn</span></div><div>${icon("chart", 19)}<span><strong>Rõ tiến độ</strong>Từng chặng</span></div><div>${icon("graduation", 19)}<span><strong>Giáo viên</strong>Hồ sơ rõ</span></div></div><p class="hero-note"><span></span>Chương trình được phát triển bởi MXiao Chinese</p></div><div class="hero-visual"><img src="/assets/brand/cover.jpg" alt="Học sinh Bamboo Chinese học cùng giáo trình YCT" loading="eager"><div class="hero-photo-card"><strong>${icon("book", 17)} YCT1 → YCT6</strong><span>Một lộ trình liền mạch cho trẻ</span></div></div></div></section>
+    <section class="section course-section"><div class="container"><div class="split-heading"><div><p class="eyebrow">LỘ TRÌNH YCT1-YCT6</p><h2>Chọn đúng điểm bắt đầu,<br>đi từng cấp độ.</h2></div><p>Mỗi khóa dùng giáo trình riêng, có số buổi và mức học phí minh bạch. Giá hiển thị là giá niêm yết và mức giảm áp dụng.</p></div>${yctJourney()}</div></section>
+    <section class="method-section"><div class="container"><div class="split-heading light"><div><p class="eyebrow">CÁCH BAMBOO DẠY</p><h2>Mỗi cấp độ cùng một nhịp học dễ theo dõi.</h2></div>${link("Xem phương pháp học", "/cach-bamboo-day", "text-link-light")}</div>${rhythmCards()}</div></section>
+    <section class="section finder-section"><div class="container"><div class="section-heading"><p class="eyebrow">TÌM ĐIỂM BẮT ĐẦU</p><h2>Con nên bắt đầu ở YCT nào?</h2><p class="lede">Trả lời hai câu ngắn để nhận gợi ý ban đầu, sau đó Bamboo sẽ hỗ trợ xác nhận trước khi xếp lớp.</p></div>${finder()}</div></section>
+    <section class="teacher-section"><div class="container"><div class="split-heading"><div><p class="eyebrow">ĐỘI NGŨ GIÁO VIÊN</p><h2>Giáo viên thật,<br>hồ sơ rõ ràng.</h2></div><p>Thông tin được đồng bộ từ đội ngũ MXiao Chinese: kinh nghiệm, chứng chỉ và thế mạnh giảng dạy đều được trình bày minh bạch.</p></div>${teacherShowcase(6)}<div class="section-action">${htmlLink(`<span>Xem toàn bộ giáo viên</span>${icon("arrow", 14)}`, "/giao-vien", "button secondary")}</div></div></section>
+    <section class="value-strip"><div class="container value-grid"><div>${icon("headphones", 22)}<span><strong>Nghe</strong>Làm quen âm thanh</span></div><div>${icon("message", 22)}<span><strong>Nói</strong>Tăng phản xạ</span></div><div>${icon("book", 22)}<span><strong>Đọc</strong>Hiểu nội dung</span></div><div>${icon("pen", 22)}<span><strong>Viết</strong>Nhớ mặt chữ</span></div></div></section>
+    <section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">BẮT ĐẦU CÙNG BAMBOO</p><h2>Chưa chắc con nên học khóa nào?</h2><p>Chia sẻ độ tuổi và tình trạng học hiện tại; Bamboo sẽ cùng gia đình tìm điểm bắt đầu phù hợp.</p>${htmlLink(`${icon("message", 16)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button light")}</div></div></section>`);
 }
 
 function learningPath() {
@@ -150,7 +172,7 @@ function groupedCurriculum(course) {
 function coursePage(course) {
   const previous = courses.find((item) => item.level === course.level - 1);
   const next = courses.find((item) => item.level === course.level + 1);
-  return shell(`<section class="course-hero"><div class="container course-hero-grid"><div><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span>${link("Lộ trình học", "/lo-trinh")}<span>/</span><span>YCT${course.level}</span></div><p class="eyebrow">LỘ TRÌNH YCT${course.level}</p><h1>${escapeHTML(course.title)}</h1><p class="lede">${course.duration.totalSessions} buổi học theo nhịp Học - Ôn tập - Đánh giá, phát triển Nghe - Nói - Đọc - Viết.</p><div class="course-actions">${link("Tìm lớp cho con", "/tim-lop-cho-con", "button primary")}${link("Xem toàn bộ lộ trình", "/lo-trinh", "button secondary")}</div></div><div class="course-image-frame"><img src="${courseImage(course.level)}" alt="Lộ trình YCT${course.level}" loading="eager"></div></div></section><div class="container course-facts"><div class="course-fact"><strong>${course.duration.totalSessions}</strong><span>Tổng số buổi</span></div><div class="course-fact"><strong>${course.duration.lessonSessions}</strong><span>Buổi học</span></div><div class="course-fact"><strong>${course.duration.reviewSessions}</strong><span>Buổi ôn tập</span></div><div class="course-fact"><strong>${course.duration.assessmentSessions}</strong><span>Buổi đánh giá</span></div></div>
+  return shell(`<section class="course-hero"><div class="container course-hero-grid"><div><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span>${link("Lộ trình học", "/lo-trinh")}<span>/</span><span>YCT${course.level}</span></div><p class="eyebrow">LỘ TRÌNH YCT${course.level}</p><h1>${escapeHTML(course.title)}</h1><p class="lede">${course.duration.totalSessions} buổi theo nhịp Học - Ôn tập - Đánh giá, phát triển Nghe - Nói - Đọc - Viết.</p><div class="course-actions">${link("Tìm lớp cho con", "/tim-lop-cho-con", "button primary")}${link("Xem toàn bộ lộ trình", "/lo-trinh", "button secondary")}</div></div><div class="course-image-frame book-frame"><img src="${courseBook(course.level)}" alt="Giáo trình YCT${course.level}" loading="eager"></div></div></section><div class="container course-facts"><div class="course-fact"><strong>${course.duration.totalSessions}</strong><span>Tổng số buổi</span></div><div class="course-fact"><strong>${course.duration.lessonSessions}</strong><span>Buổi học</span></div><div class="course-fact"><strong>${course.duration.reviewSessions}</strong><span>Buổi ôn tập</span></div><div class="course-fact"><strong>${course.duration.assessmentSessions}</strong><span>Buổi đánh giá</span></div></div>
     <section class="section compact"><div class="container"><div class="section-heading"><p class="eyebrow">CẤU TRÚC KHÓA HỌC</p><h2>Một chặng học có điểm bắt đầu, mốc củng cố và điểm nhìn lại.</h2></div><div class="milestone-grid"><article class="milestone lesson"><strong>${course.duration.lessonSessions}</strong><h3>Buổi học</h3><p>Các bài học theo curriculum YCT${course.level}, giữ nguyên tên tiếng Trung và tiếng Việt từ dữ liệu nguồn.</p></article><article class="milestone review"><strong>${course.duration.reviewSessions}</strong><h3>Buổi ôn tập</h3><p>Mốc ôn tập được đặt sau từng chặng nội dung trong curriculum.</p></article><article class="milestone assessment"><strong>${course.duration.assessmentSessions}</strong><h3>Buổi đánh giá</h3><p>Gồm Nghe - Nói và Đọc - Viết ở cuối khóa.</p></article></div></div></section>
     <section class="section tint"><div class="container"><div class="section-heading"><p class="eyebrow">NỘI DUNG YCT${course.level}</p><h2>Các buổi học trong lộ trình.</h2><p class="lede">Mở từng chặng để xem tên bài đúng theo dữ liệu curriculum đã cung cấp.</p></div><div class="curriculum-list">${groupedCurriculum(course)}</div></div></section>
     <section class="section"><div class="container"><div class="lesson-grid"><div class="lesson-card"><div class="lesson-card-top"><span class="mini-label" style="color:var(--orange)">MỘT BUỔI HỌC</span><span class="lesson-time">${course.duration.minutesPerSession || 90} phút</span></div><h3>Học qua bốn kỹ năng.</h3><p>Trang tập trung vào những thông tin đã có trong nguồn khóa học.</p><div class="lesson-sequence"><div class="sequence-item"><span class="sequence-dot">01</span><span>Nghe</span></div><div class="sequence-item"><span class="sequence-dot">02</span><span>Nói</span></div><div class="sequence-item"><span class="sequence-dot">03</span><span>Đọc</span></div><div class="sequence-item"><span class="sequence-dot">04</span><span>Viết</span></div></div></div><div class="lesson-copy"><div class="section-heading"><p class="eyebrow">TIẾN BỘ CỦA CON</p><h2>Nhìn thấy mốc học, ôn tập và đánh giá.</h2><p class="lede">Tiến bộ của con là cách giải thích cơ chế ghi nhận tiến bộ, không phải bảng theo dõi cá nhân đang hoạt động.</p></div>${link("Tìm hiểu Tiến bộ của con", "/tien-bo-cua-con", "arrow-link")}</div></div></div></section>
@@ -174,8 +196,13 @@ function articlePage() {
 }
 
 function teachers(path) {
-  const isDetail = path.startsWith("/giao-vien/");
-  return shell(`${pageHero("GIÁO VIÊN", isDetail ? "Hồ sơ giáo viên" : "Đội ngũ giáo viên", isDetail ? "Thông tin hồ sơ giáo viên được trình bày theo nguồn dữ liệu chung của MXiao Chinese." : "Bamboo sử dụng nguồn dữ liệu giáo viên chung của MXiao Chinese để bảo đảm thông tin nhất quán.", "師")}<section class="section"><div class="container not-found"><div><p class="eyebrow">MXIAO CHINESE</p><h2>${isDetail ? "Không tìm thấy hồ sơ này." : "Bamboo và MXiao cùng một nguồn giáo viên."}</h2><p class="lede" style="margin:18px auto 0">${isDetail ? "Hãy quay lại danh sách để tiếp tục tìm hiểu." : "Bamboo trình bày thông tin giáo viên theo dữ liệu đã được xác nhận của MXiao Chinese."}</p>${link(isDetail ? "Về trang giáo viên" : "Tìm lớp cho con", isDetail ? "/giao-vien" : "/tim-lop-cho-con", "button primary")}</div></div></section>`);
+  const id = path.split("/").filter(Boolean)[1];
+  if (id) {
+    const teacher = teachersData.find((item) => item.id === id);
+    if (!teacher) return shell(`${pageHero("GIÁO VIÊN", "Không tìm thấy hồ sơ", "Hãy quay lại danh sách để tiếp tục tìm hiểu đội ngũ giáo viên.", "師")}<section class="section compact"><div class="container section-action">${link("Về trang giáo viên", "/giao-vien", "button primary")}</div></section>`);
+    return shell(`${pageHero("HỒ SƠ GIÁO VIÊN", teacher.name, teacher.role, "師")}<section class="section"><div class="container teacher-profile"><div class="teacher-profile-photo"><img src="${teacher.avatar}" alt="Giáo viên ${escapeHTML(teacher.name)}"></div><div class="teacher-profile-copy"><p class="eyebrow">KINH NGHIỆM & THẾ MẠNH</p><h2>${escapeHTML(teacher.experience)}</h2><p class="lede">${escapeHTML(teacher.shortBio)}</p><div class="teacher-badges large">${teacher.badges.map((badge) => `<span>${escapeHTML(badge)}</span>`).join("")}</div><h3>Thế mạnh giảng dạy</h3><ul class="strength-list">${teacher.strengths.map((strength) => `<li>${icon("check", 13)} ${escapeHTML(strength)}</li>`).join("")}</ul>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button primary")}</div></div></section><section class="section compact tint"><div class="container section-action">${link("← Xem toàn bộ giáo viên", "/giao-vien", "arrow-link")}</div></section>`);
+  }
+  return shell(`${pageHero("ĐỘI NGŨ GIÁO VIÊN", "Người đồng hành cùng con", "Thông tin giáo viên được đồng bộ từ đội ngũ MXiao Chinese, trình bày rõ kinh nghiệm, chứng chỉ và thế mạnh giảng dạy.", "師")}<section class="section"><div class="container"><div class="split-heading"><div><p class="eyebrow">HỒ SƠ MINH BẠCH</p><h2>Hiểu người sẽ đồng hành cùng con.</h2></div><p>Mỗi hồ sơ giữ nguyên thông tin chuyên môn từ nguồn MXiao để phụ huynh dễ tìm hiểu trước khi đăng ký.</p></div><div class="teacher-grid">${teachersData.map((teacher) => teacherCard(teacher)).join("")}</div></div></section><section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">CẦN GỢI Ý LỚP HỌC?</p><h2>Chia sẻ điểm bắt đầu của con.</h2>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
 }
 
 function contactForm() {
@@ -299,8 +326,12 @@ function bindInteractions() {
 }
 
 async function loadCourses() {
-  const responses = await Promise.all(COURSE_FILES.map((file) => fetch(file)));
+  const [responses, teachersResponse] = await Promise.all([
+    Promise.all(COURSE_FILES.map((file) => fetch(file))),
+    fetch(TEACHER_FILE),
+  ]);
   courses = await Promise.all(responses.map((response) => response.json()));
+  teachersData = await teachersResponse.json();
   courses.sort((a, b) => a.level - b.level);
 }
 
