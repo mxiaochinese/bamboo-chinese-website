@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "id": "bamboo-yct-1",
+  "slug": "yct-1",
+  "brand": "bamboo",
+  "system": "YCT",
+  "level": 1,
+  "title": "YCT1",
+  "duration": {
+    "totalSessions": 28,
+    "lessonSessions": 22,
+    "reviewSessions": 4,
+    "assessmentSessions": 2,
+    "minutesPerSession": 90
+  },
+  "classSize": {
+    "maxOnline": 6,
+    "maxOffline": 8
+  },
+  "deliveryModes": [
+    "online",
+    "offline"
+  ],
+  "skills": [
+    "listening",
+    "speaking",
+    "reading",
+    "writing"
+  ],
+  "curriculum": [
+    {
+      "session": 1,
+      "type": "lesson",
+      "titleZh": "你好！（1）",
+      "titleVi": "Xin chào! (1)",
+      "lessonNumber": 1,
+      "part": 1
+    },
+    {
+      "session": 2,
+      "type": "lesson",
+      "titleZh": "你好！（2）",
+      "titleVi": "Xin chào! (2)",
+      "lessonNumber": 1,
+      "part": 2
+    },
+    {
+      "session": 3,
+      "type": "lesson",
+      "titleZh": "你叫什么？（1）",
+      "titleVi": "Bạn tên là gì? (1)",
+      "lessonNumber": 2,
+      "part": 1
+    },
+    {
+      "session": 4,
+      "type": "lesson",
+      "titleZh": "你叫什么？（2）",
+      "titleVi": "Bạn tên là gì? (2)",
+      "lessonNumber": 2,
+      "part": 2
+    },
+    {
+      "session": 5,
+      "type": "lesson",
+      "titleZh": "他是谁？（1）",
+      "titleVi": "Anh ấy là ai? (1)",
+      "lessonNumber": 3,
+      "part": 1
+    },
+    {
+      "session": 6,
+      "type": "lesson",
+      "titleZh": "他是谁？（2）",
+      "titleVi": "Anh ấy là ai? (2)",
+      "lessonNumber": 3,
+      "part": 2
+    },
+    {
+      "session": 7,
+      "type": "review",
+      "titleZh": "复习（一）：第1-3课",
+      "titleVi": "Ôn tập 1: Bài 1-3",
+      "reviewRange": {
+        "fromLesson": 1,
+        "toLesson": 3
+      }
+    },
+    {
+      "session": 8,
+      "type": "lesson",
+      "titleZh": "我家有四口人。（1）",
+      "titleVi": "Nhà tôi có bốn người (1)",
+      "lessonNumber": 4,
+      "part": 1
+    },
+    {
+      "session": 9,
+      "type": "lesson",
+      "titleZh": "我家有四口人。（2）",
+      "titleVi": "Nhà tôi có bốn người (2)",
+      "lessonNumber": 4,
+      "part": 2
+    },
+    {
+      "session": 10,
+      "type": "lesson",
+      "titleZh": "我6岁。（1）",
+      "titleVi": "Tôi 6 tuổi (1)",
+      "lessonNumber": 5,
+      "part": 1
+    },
+    {
+      "session": 11,
+      "type": "lesson",
+      "titleZh": "我6岁。（2）",
+      "titleVi": "Tôi 6 tuổi (2)",
+      "lessonNumber": 5,
+      "part": 2
+    },
+    {
+      "session": 12,
+      "type": "lesson",
+      "titleZh": "你的个子真高！（1）",
+      "titleVi": "Bạn cao thật đấy! (1)",
+      "lessonNumber": 6,
+      "part": 1
+    },
+    {
+      "session": 13,
+      "type": "lesson",
+      "titleZh": "你的个子真高！（2）",
+      "titleVi": "Bạn cao thật đấy! (2)",
+      "lessonNumber": 6,
+      "part": 2
+    },
+    {
+      "session": 14,
+      "type": "review",
+      "titleZh": "复习（二）：第4-6课",
+      "titleVi": "Ôn tập 2: Bài 4-6",
+      "reviewRange": {
+        "fromLesson": 4,
+        "toLesson": 6
+      }
+    },
+    {
+      "session": 15,
+      "type": "lesson",
+      "titleZh": "这是谁的狗？（1）",
+      "titleVi": "Đây là chó của ai? (1)",
+      "lessonNumber": 7,
+      "part": 1
+    },
+    {
+      "session": 16,
+      "type": "lesson",
+      "titleZh": "这是谁的狗？（2）",
+      "titleVi": "Đây là chó của ai? (2)",
+      "lessonNumber": 7,
+      "part": 2
+    },
+    {
+      "session": 17,
+      "type": "lesson",
+      "titleZh": "我去商店。（1）",
+      "titleVi": "Tôi đi cửa hàng (1)",
+      "lessonNumber": 8,
+      "part": 1
+    },
+    {
+      "session": 18,
+      "type": "lesson",
+      "titleZh": "我去商店。（2）",
+      "titleVi": "Tôi đi cửa hàng (2)",
+      "lessonNumber": 8,
+      "part": 2
+    },
+    {
+      "session": 19,
+      "type": "lesson",
+      "titleZh": "今天星期几？（1）",
+      "titleVi": "Hôm nay là thứ mấy? (1)",
+      "lessonNumber": 9,
+      "part": 1
+    },
+    {
+      "session": 20,
+      "type": "lesson",
+      "titleZh": "今天星期几？（2）",
+      "titleVi": "Hôm nay là thứ mấy? (2)",
+      "lessonNumber": 9,
+      "part": 2
+    },
+    {
+      "session": 21,
+      "type": "review",
+      "titleZh": "复习（三）：第7-9课",
+      "titleVi": "Ôn tập 3: Bài 7-9",
+      "reviewRange": {
+        "fromLesson": 7,
+        "toLesson": 9
+      }
+    },
+    {
+      "session": 22,
+      "type": "lesson",
+      "titleZh": "现在几点？（1）",
+      "titleVi": "Bây giờ là mấy giờ? (1)",
+      "lessonNumber": 10,
+      "part": 1
+    },
+    {
+      "session": 23,
+      "type": "lesson",
+      "titleZh": "现在几点？（2）",
+      "titleVi": "Bây giờ là mấy giờ? (2)",
+      "lessonNumber": 10,
+      "part": 2
+    },
+    {
+      "session": 24,
+      "type": "lesson",
+      "titleZh": "你吃什么？（1）",
+      "titleVi": "Bạn ăn gì? (1)",
+      "lessonNumber": 11,
+      "part": 1
+    },
+    {
+      "session": 25,
+      "type": "lesson",
+      "titleZh": "你吃什么？（2）",
+      "titleVi": "Bạn ăn gì? (2)",
+      "lessonNumber": 11,
+      "part": 2
+    },
+    {
+      "session": 26,
+      "type": "review",
+      "titleZh": "复习（四）：第10-11课",
+      "titleVi": "Ôn tập 4: Bài 10-11",
+      "reviewRange": {
+        "fromLesson": 10,
+        "toLesson": 11
+      }
+    },
+    {
+      "session": 27,
+      "type": "assessment",
+      "titleZh": "YCT 1 听说能力测试",
+      "titleVi": "Kiểm tra năng lực Nghe - Nói YCT 1",
+      "assessmentSkillGroup": "listening-speaking"
+    },
+    {
+      "session": 28,
+      "type": "assessment",
+      "titleZh": "YCT 1 读写能力测试",
+      "titleVi": "Kiểm tra năng lực Đọc - Viết YCT 1",
+      "assessmentSkillGroup": "reading-writing"
+    }
+  ],
+  "pricing": {
+    "currency": "VND",
+    "listPrice": 5750000,
+    "discountAmount": 500000
+  },
+  "teacherIds": [],
+  "faqIds": [],
+  "contentStatus": {
+    "learningOutcomes": "needs-academic-content",
+    "teacherCourseMapping": "source-from-mxiao",
+    "testimonials": "optional-no-approved-data",
+    "learningEvidence": "optional-no-approved-data"
+  },
+  "status": "published"
+}

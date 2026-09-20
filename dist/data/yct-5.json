@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "id": "bamboo-yct-5",
+  "slug": "yct-5",
+  "brand": "bamboo",
+  "system": "YCT",
+  "level": 5,
+  "title": "YCT5",
+  "duration": {
+    "totalSessions": 35,
+    "lessonSessions": 28,
+    "reviewSessions": 5,
+    "assessmentSessions": 2,
+    "minutesPerSession": 90
+  },
+  "classSize": {
+    "maxOnline": 6,
+    "maxOffline": 8
+  },
+  "deliveryModes": [
+    "online",
+    "offline"
+  ],
+  "skills": [
+    "listening",
+    "speaking",
+    "reading",
+    "writing"
+  ],
+  "curriculum": [
+    {
+      "session": 1,
+      "type": "lesson",
+      "titleZh": "你对中国功夫感兴趣吗？（1）",
+      "titleVi": "Bạn có hứng thú với võ thuật Trung Quốc không? (1)",
+      "lessonNumber": 1,
+      "part": 1
+    },
+    {
+      "session": 2,
+      "type": "lesson",
+      "titleZh": "你对中国功夫感兴趣吗？（2）",
+      "titleVi": "Bạn có hứng thú với võ thuật Trung Quốc không? (2)",
+      "lessonNumber": 1,
+      "part": 2
+    },
+    {
+      "session": 3,
+      "type": "lesson",
+      "titleZh": "兔子更可爱。（1）",
+      "titleVi": "Thỏ đáng yêu hơn (1)",
+      "lessonNumber": 2,
+      "part": 1
+    },
+    {
+      "session": 4,
+      "type": "lesson",
+      "titleZh": "兔子更可爱。（2）",
+      "titleVi": "Thỏ đáng yêu hơn (2)",
+      "lessonNumber": 2,
+      "part": 2
+    },
+    {
+      "session": 5,
+      "type": "lesson",
+      "titleZh": "电梯坏了。（1）",
+      "titleVi": "Thang máy hỏng rồi (1)",
+      "lessonNumber": 3,
+      "part": 1
+    },
+    {
+      "session": 6,
+      "type": "lesson",
+      "titleZh": "电梯坏了。（2）",
+      "titleVi": "Thang máy hỏng rồi (2)",
+      "lessonNumber": 3,
+      "part": 2
+    },
+    {
+      "session": 7,
+      "type": "review",
+      "titleZh": "复习（一）：第1-3课",
+      "titleVi": "Ôn tập 1: Bài 1-3",
+      "reviewRange": {
+        "fromLesson": 1,
+        "toLesson": 3
+      }
+    },
+    {
+      "session": 8,
+      "type": "lesson",
+      "titleZh": "每个人都有自己的习惯。（1）",
+      "titleVi": "Mỗi người đều có thói quen riêng (1)",
+      "lessonNumber": 4,
+      "part": 1
+    },
+    {
+      "session": 9,
+      "type": "lesson",
+      "titleZh": "每个人都有自己的习惯。（2）",
+      "titleVi": "Mỗi người đều có thói quen riêng (2)",
+      "lessonNumber": 4,
+      "part": 2
+    },
+    {
+      "session": 10,
+      "type": "lesson",
+      "titleZh": "他们多么年轻啊！（1）",
+      "titleVi": "Họ trẻ biết bao! (1)",
+      "lessonNumber": 5,
+      "part": 1
+    },
+    {
+      "session": 11,
+      "type": "lesson",
+      "titleZh": "他们多么年轻啊！（2）",
+      "titleVi": "Họ trẻ biết bao! (2)",
+      "lessonNumber": 5,
+      "part": 2
+    },
+    {
+      "session": 12,
+      "type": "lesson",
+      "titleZh": "站着的还是坐着的？（1）",
+      "titleVi": "Người đang đứng hay người đang ngồi? (1)",
+      "lessonNumber": 6,
+      "part": 1
+    },
+    {
+      "session": 13,
+      "type": "lesson",
+      "titleZh": "站着的还是坐着的？（2）",
+      "titleVi": "Người đang đứng hay người đang ngồi? (2)",
+      "lessonNumber": 6,
+      "part": 2
+    },
+    {
+      "session": 14,
+      "type": "review",
+      "titleZh": "复习（二）：第4-6课",
+      "titleVi": "Ôn tập 2: Bài 4-6",
+      "reviewRange": {
+        "fromLesson": 4,
+        "toLesson": 6
+      }
+    },
+    {
+      "session": 15,
+      "type": "lesson",
+      "titleZh": "我经常去体育馆锻炼身体。（1）",
+      "titleVi": "Tôi thường đến nhà thi đấu tập thể dục (1)",
+      "lessonNumber": 7,
+      "part": 1
+    },
+    {
+      "session": 16,
+      "type": "lesson",
+      "titleZh": "我经常去体育馆锻炼身体。（2）",
+      "titleVi": "Tôi thường đến nhà thi đấu tập thể dục (2)",
+      "lessonNumber": 7,
+      "part": 2
+    },
+    {
+      "session": 17,
+      "type": "lesson",
+      "titleZh": "北京一共有四个季节。（1）",
+      "titleVi": "Bắc Kinh có tổng cộng bốn mùa (1)",
+      "lessonNumber": 8,
+      "part": 1
+    },
+    {
+      "session": 18,
+      "type": "lesson",
+      "titleZh": "北京一共有四个季节。（2）",
+      "titleVi": "Bắc Kinh có tổng cộng bốn mùa (2)",
+      "lessonNumber": 8,
+      "part": 2
+    },
+    {
+      "session": 19,
+      "type": "lesson",
+      "titleZh": "冰激凌既好吃又便宜。（1）",
+      "titleVi": "Kem vừa ngon vừa rẻ (1)",
+      "lessonNumber": 9,
+      "part": 1
+    },
+    {
+      "session": 20,
+      "type": "lesson",
+      "titleZh": "冰激凌既好吃又便宜。（2）",
+      "titleVi": "Kem vừa ngon vừa rẻ (2)",
+      "lessonNumber": 9,
+      "part": 2
+    },
+    {
+      "session": 21,
+      "type": "review",
+      "titleZh": "复习（三）：第7-9课",
+      "titleVi": "Ôn tập 3: Bài 7-9",
+      "reviewRange": {
+        "fromLesson": 7,
+        "toLesson": 9
+      }
+    },
+    {
+      "session": 22,
+      "type": "lesson",
+      "titleZh": "你的汉语会越来越好。（1）",
+      "titleVi": "Tiếng Trung của bạn sẽ ngày càng tốt hơn (1)",
+      "lessonNumber": 10,
+      "part": 1
+    },
+    {
+      "session": 23,
+      "type": "lesson",
+      "titleZh": "你的汉语会越来越好。（2）",
+      "titleVi": "Tiếng Trung của bạn sẽ ngày càng tốt hơn (2)",
+      "lessonNumber": 10,
+      "part": 2
+    },
+    {
+      "session": 24,
+      "type": "lesson",
+      "titleZh": "来一盘羊肉饺子。（1）",
+      "titleVi": "Cho một đĩa sủi cảo nhân thịt cừu (1)",
+      "lessonNumber": 11,
+      "part": 1
+    },
+    {
+      "session": 25,
+      "type": "lesson",
+      "titleZh": "来一盘羊肉饺子。（2）",
+      "titleVi": "Cho một đĩa sủi cảo nhân thịt cừu (2)",
+      "lessonNumber": 11,
+      "part": 2
+    },
+    {
+      "session": 26,
+      "type": "lesson",
+      "titleZh": "坐飞机或者坐火车都可以。（1）",
+      "titleVi": "Đi máy bay hoặc đi tàu hỏa đều được (1)",
+      "lessonNumber": 12,
+      "part": 1
+    },
+    {
+      "session": 27,
+      "type": "lesson",
+      "titleZh": "坐飞机或者坐火车都可以。（2）",
+      "titleVi": "Đi máy bay hoặc đi tàu hỏa đều được (2)",
+      "lessonNumber": 12,
+      "part": 2
+    },
+    {
+      "session": 28,
+      "type": "review",
+      "titleZh": "复习（四）：第10-12课",
+      "titleVi": "Ôn tập 4: Bài 10-12",
+      "reviewRange": {
+        "fromLesson": 10,
+        "toLesson": 12
+      }
+    },
+    {
+      "session": 29,
+      "type": "lesson",
+      "titleZh": "我先帮你补牙。（1）",
+      "titleVi": "Tôi sẽ giúp bạn trám răng trước (1)",
+      "lessonNumber": 13,
+      "part": 1
+    },
+    {
+      "session": 30,
+      "type": "lesson",
+      "titleZh": "我先帮你补牙。（2）",
+      "titleVi": "Tôi sẽ giúp bạn trám răng trước (2)",
+      "lessonNumber": 13,
+      "part": 2
+    },
+    {
+      "session": 31,
+      "type": "lesson",
+      "titleZh": "我打算去中国旅游。（1）",
+      "titleVi": "Tôi dự định đi du lịch Trung Quốc (1)",
+      "lessonNumber": 14,
+      "part": 1
+    },
+    {
+      "session": 32,
+      "type": "lesson",
+      "titleZh": "我打算去中国旅游。（2）",
+      "titleVi": "Tôi dự định đi du lịch Trung Quốc (2)",
+      "lessonNumber": 14,
+      "part": 2
+    },
+    {
+      "session": 33,
+      "type": "review",
+      "titleZh": "复习（五）：第13-14课",
+      "titleVi": "Ôn tập 5: Bài 13-14",
+      "reviewRange": {
+        "fromLesson": 13,
+        "toLesson": 14
+      }
+    },
+    {
+      "session": 34,
+      "type": "assessment",
+      "titleZh": "YCT 5 听说能力测试",
+      "titleVi": "Kiểm tra năng lực Nghe - Nói YCT 5",
+      "assessmentSkillGroup": "listening-speaking"
+    },
+    {
+      "session": 35,
+      "type": "assessment",
+      "titleZh": "YCT 5 读写能力测试",
+      "titleVi": "Kiểm tra năng lực Đọc - Viết YCT 5",
+      "assessmentSkillGroup": "reading-writing"
+    }
+  ],
+  "pricing": {
+    "currency": "VND",
+    "listPrice": 8000000,
+    "discountAmount": 500000
+  },
+  "teacherIds": [],
+  "faqIds": [],
+  "contentStatus": {
+    "learningOutcomes": "needs-academic-content",
+    "teacherCourseMapping": "source-from-mxiao",
+    "testimonials": "optional-no-approved-data",
+    "learningEvidence": "optional-no-approved-data"
+  },
+  "status": "published"
+}

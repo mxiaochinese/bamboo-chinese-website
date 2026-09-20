@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "id": "bamboo-yct-3",
+  "slug": "yct-3",
+  "brand": "bamboo",
+  "system": "YCT",
+  "level": 3,
+  "title": "YCT3",
+  "duration": {
+    "totalSessions": 28,
+    "lessonSessions": 22,
+    "reviewSessions": 4,
+    "assessmentSessions": 2,
+    "minutesPerSession": 90
+  },
+  "classSize": {
+    "maxOnline": 6,
+    "maxOffline": 8
+  },
+  "deliveryModes": [
+    "online",
+    "offline"
+  ],
+  "skills": [
+    "listening",
+    "speaking",
+    "reading",
+    "writing"
+  ],
+  "curriculum": [
+    {
+      "session": 1,
+      "type": "lesson",
+      "titleZh": "我三年级。（1）",
+      "titleVi": "Tôi học lớp 3 (1)",
+      "lessonNumber": 1,
+      "part": 1
+    },
+    {
+      "session": 2,
+      "type": "lesson",
+      "titleZh": "我三年级。（2）",
+      "titleVi": "Tôi học lớp 3 (2)",
+      "lessonNumber": 1,
+      "part": 2
+    },
+    {
+      "session": 3,
+      "type": "lesson",
+      "titleZh": "你喜欢什么运动？（1）",
+      "titleVi": "Bạn thích môn thể thao nào? (1)",
+      "lessonNumber": 2,
+      "part": 1
+    },
+    {
+      "session": 4,
+      "type": "lesson",
+      "titleZh": "你喜欢什么运动？（2）",
+      "titleVi": "Bạn thích môn thể thao nào? (2)",
+      "lessonNumber": 2,
+      "part": 2
+    },
+    {
+      "session": 5,
+      "type": "lesson",
+      "titleZh": "我在画画儿呢。（1）",
+      "titleVi": "Tôi đang vẽ tranh (1)",
+      "lessonNumber": 3,
+      "part": 1
+    },
+    {
+      "session": 6,
+      "type": "lesson",
+      "titleZh": "我在画画儿呢。（2）",
+      "titleVi": "Tôi đang vẽ tranh (2)",
+      "lessonNumber": 3,
+      "part": 2
+    },
+    {
+      "session": 7,
+      "type": "review",
+      "titleZh": "复习（一）：第1-3课",
+      "titleVi": "Ôn tập 1: Bài 1-3",
+      "reviewRange": {
+        "fromLesson": 1,
+        "toLesson": 3
+      }
+    },
+    {
+      "session": 8,
+      "type": "lesson",
+      "titleZh": "喂，您好！（1）",
+      "titleVi": "A lô, xin chào! (1)",
+      "lessonNumber": 4,
+      "part": 1
+    },
+    {
+      "session": 9,
+      "type": "lesson",
+      "titleZh": "喂，您好！（2）",
+      "titleVi": "A lô, xin chào! (2)",
+      "lessonNumber": 4,
+      "part": 2
+    },
+    {
+      "session": 10,
+      "type": "lesson",
+      "titleZh": "再吃几个。（1）",
+      "titleVi": "Ăn thêm vài cái nữa (1)",
+      "lessonNumber": 5,
+      "part": 1
+    },
+    {
+      "session": 11,
+      "type": "lesson",
+      "titleZh": "再吃几个。（2）",
+      "titleVi": "Ăn thêm vài cái nữa (2)",
+      "lessonNumber": 5,
+      "part": 2
+    },
+    {
+      "session": 12,
+      "type": "lesson",
+      "titleZh": "我能自己穿。（1）",
+      "titleVi": "Tôi có thể tự mặc (1)",
+      "lessonNumber": 6,
+      "part": 1
+    },
+    {
+      "session": 13,
+      "type": "lesson",
+      "titleZh": "我能自己穿。（2）",
+      "titleVi": "Tôi có thể tự mặc (2)",
+      "lessonNumber": 6,
+      "part": 2
+    },
+    {
+      "session": 14,
+      "type": "review",
+      "titleZh": "复习（二）：第4-6课",
+      "titleVi": "Ôn tập 2: Bài 4-6",
+      "reviewRange": {
+        "fromLesson": 4,
+        "toLesson": 6
+      }
+    },
+    {
+      "session": 15,
+      "type": "lesson",
+      "titleZh": "生日快乐！（1）",
+      "titleVi": "Chúc mừng sinh nhật! (1)",
+      "lessonNumber": 7,
+      "part": 1
+    },
+    {
+      "session": 16,
+      "type": "lesson",
+      "titleZh": "生日快乐！（2）",
+      "titleVi": "Chúc mừng sinh nhật! (2)",
+      "lessonNumber": 7,
+      "part": 2
+    },
+    {
+      "session": 17,
+      "type": "lesson",
+      "titleZh": "下雪了。（1）",
+      "titleVi": "Tuyết rơi rồi (1)",
+      "lessonNumber": 8,
+      "part": 1
+    },
+    {
+      "session": 18,
+      "type": "lesson",
+      "titleZh": "下雪了。（2）",
+      "titleVi": "Tuyết rơi rồi (2)",
+      "lessonNumber": 8,
+      "part": 2
+    },
+    {
+      "session": 19,
+      "type": "lesson",
+      "titleZh": "笑一笑！（1）",
+      "titleVi": "Cười lên nào! (1)",
+      "lessonNumber": 9,
+      "part": 1
+    },
+    {
+      "session": 20,
+      "type": "lesson",
+      "titleZh": "笑一笑！（2）",
+      "titleVi": "Cười lên nào! (2)",
+      "lessonNumber": 9,
+      "part": 2
+    },
+    {
+      "session": 21,
+      "type": "review",
+      "titleZh": "复习（三）：第7-9课",
+      "titleVi": "Ôn tập 3: Bài 7-9",
+      "reviewRange": {
+        "fromLesson": 7,
+        "toLesson": 9
+      }
+    },
+    {
+      "session": 22,
+      "type": "lesson",
+      "titleZh": "谁跑得快？（1）",
+      "titleVi": "Ai chạy nhanh? (1)",
+      "lessonNumber": 10,
+      "part": 1
+    },
+    {
+      "session": 23,
+      "type": "lesson",
+      "titleZh": "谁跑得快？（2）",
+      "titleVi": "Ai chạy nhanh? (2)",
+      "lessonNumber": 10,
+      "part": 2
+    },
+    {
+      "session": 24,
+      "type": "lesson",
+      "titleZh": "妈妈把糖给弟弟了。（1）",
+      "titleVi": "Mẹ đã đưa kẹo cho em trai (1)",
+      "lessonNumber": 11,
+      "part": 1
+    },
+    {
+      "session": 25,
+      "type": "lesson",
+      "titleZh": "妈妈把糖给弟弟了。（2）",
+      "titleVi": "Mẹ đã đưa kẹo cho em trai (2)",
+      "lessonNumber": 11,
+      "part": 2
+    },
+    {
+      "session": 26,
+      "type": "review",
+      "titleZh": "复习（四）：第10-11课",
+      "titleVi": "Ôn tập 4: Bài 10-11",
+      "reviewRange": {
+        "fromLesson": 10,
+        "toLesson": 11
+      }
+    },
+    {
+      "session": 27,
+      "type": "assessment",
+      "titleZh": "YCT 3 听说能力测试",
+      "titleVi": "Kiểm tra năng lực Nghe - Nói YCT 3",
+      "assessmentSkillGroup": "listening-speaking"
+    },
+    {
+      "session": 28,
+      "type": "assessment",
+      "titleZh": "YCT 3 读写能力测试",
+      "titleVi": "Kiểm tra năng lực Đọc - Viết YCT 3",
+      "assessmentSkillGroup": "reading-writing"
+    }
+  ],
+  "pricing": {
+    "currency": "VND",
+    "listPrice": 6000000,
+    "discountAmount": 500000
+  },
+  "teacherIds": [],
+  "faqIds": [],
+  "contentStatus": {
+    "learningOutcomes": "needs-academic-content",
+    "teacherCourseMapping": "source-from-mxiao",
+    "testimonials": "optional-no-approved-data",
+    "learningEvidence": "optional-no-approved-data"
+  },
+  "status": "published"
+}
