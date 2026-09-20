@@ -408,6 +408,105 @@ p { margin: 0 0 18px; }
 .contact-item strong { display: block; }
 .contact-item span { color: var(--muted); font-size: 14px; }
 
+/* Visual depth: imagery, layered course cards, and a more editorial rhythm. */
+.hero { background: radial-gradient(circle at 16% 20%, rgba(255,255,255,.9) 0 6%, transparent 26%), linear-gradient(135deg, #dcfbfd 0%, var(--cream) 55%, #ecf8cf 100%); }
+.hero::before { right: -6vw; bottom: -15vw; width: 54vw; height: 34vw; background: rgba(128, 200, 81, .3); }
+.hero-photo { border-width: 12px; border-radius: 38px 38px 26px 38px; box-shadow: 26px 30px 0 rgba(252, 165, 21, .18), var(--shadow); }
+.hero-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,.16), transparent 45%); }
+.hero-photo-card { right: -8px; bottom: 34px; border-radius: 18px 0 0 18px; box-shadow: 0 16px 32px rgba(23,51,27,.18); }
+
+.finder { grid-template-columns: minmax(310px, .82fr) minmax(0, 1.18fr); gap: 32px; }
+.finder-panel { position: sticky; top: 104px; padding: 31px; border: 0; border-radius: 28px; background: linear-gradient(160deg, white, #f7fce9); box-shadow: 0 22px 54px rgba(0, 110, 0, .1); }
+.finder-story { display: grid; gap: 22px; }
+.finder-scene { position: relative; min-height: 260px; margin: 0; overflow: hidden; border-radius: 28px; background: var(--green-soft); box-shadow: var(--shadow-soft); }
+.finder-scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,51,27,.04), transparent 55%); pointer-events: none; }
+.finder-scene img { width: 100%; height: 100%; object-fit: cover; object-position: 58% center; }
+.finder-scene figcaption { position: absolute; right: 18px; bottom: 18px; z-index: 1; width: min(250px, 56%); padding: 16px; border: 1px solid rgba(255,255,255,.75); border-radius: 16px; background: rgba(255,255,255,.92); box-shadow: var(--shadow-soft); }
+.finder-scene figcaption strong { display: block; color: var(--green-dark); font-size: 16px; line-height: 1.2; }
+.finder-scene figcaption span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.finder-steps { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.mini-step { display: block; min-height: 174px; padding: 20px 16px 16px; border: 1px solid var(--border); border-radius: 18px; background: white; }
+.mini-step:nth-child(2) { transform: translateY(18px); background: #f7fce9; }
+.mini-step:nth-child(3) { background: #fffaf0; }
+.mini-step-number { margin-bottom: 17px; width: 38px; height: 38px; border-radius: 12px; }
+.mini-step h3 { font-size: 17px; }
+.mini-step p { font-size: 13px; line-height: 1.55; }
+
+.journey-track { display: block; position: relative; height: 0; z-index: 0; }
+.journey-track::before { content: ""; position: absolute; right: 8%; left: 8%; top: 146px; height: 92px; border: 2px dashed rgba(8,155,0,.26); border-color: rgba(8,155,0,.32) transparent transparent; border-radius: 50%; transform: rotate(-3deg); }
+.journey-grid { position: relative; gap: 24px; }
+.journey-card { min-height: 310px; padding: 22px 22px 20px; border: 0; border-radius: 27px; background: white; box-shadow: 0 14px 26px rgba(23,51,27,.07); }
+.journey-card:nth-child(2), .journey-card:nth-child(5) { background: #ecf8db; }
+.journey-card:nth-child(3), .journey-card:nth-child(6) { background: #fff8e6; }
+.journey-card::before { content: ""; position: absolute; right: -22px; bottom: -35px; width: 135px; height: 135px; border: 18px solid rgba(8,155,0,.1); border-radius: 50%; }
+.journey-art { position: absolute; top: 16px; right: 16px; width: 108px; height: 126px; overflow: hidden; border: 5px solid white; border-radius: 17px 17px 8px 17px; background: white; box-shadow: 0 12px 20px rgba(23,51,27,.13); transform: rotate(4deg); }
+.journey-card:nth-child(even) .journey-art { transform: rotate(-4deg); }
+.journey-art img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.journey-spark { position: absolute; bottom: -13px; left: -13px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #5d4000; font-size: 17px; font-weight: 800; }
+.journey-content { display: flex; flex: 1; flex-direction: column; max-width: calc(100% - 90px); }
+.journey-card h3 { margin-top: 23px; font-size: 33px; }
+.journey-card p { max-width: 220px; margin-top: 12px; font-size: 13px; line-height: 1.55; }
+.journey-card-footer { position: relative; z-index: 1; }
+
+.lesson-grid { grid-template-columns: 1.08fr .92fr; gap: 64px; }
+.lesson-showcase { position: relative; min-height: 515px; }
+.lesson-photo { position: absolute; inset: 0 38px 38px 0; margin: 0; overflow: hidden; border: 10px solid white; border-radius: 31px 31px 14px 31px; box-shadow: var(--shadow); }
+.lesson-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,51,27,.25), transparent 45%); pointer-events: none; }
+.lesson-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 66% center; }
+.lesson-card { position: absolute; right: 0; bottom: 0; width: min(355px, 74%); padding: 25px; border: 1px solid rgba(255,255,255,.15); border-radius: 25px 25px 25px 7px; background: rgba(0,110,0,.96); box-shadow: 0 20px 34px rgba(0,110,0,.24); backdrop-filter: blur(8px); }
+.lesson-card h3 { margin-top: 16px; font-size: 25px; }
+.lesson-sequence { margin-top: 18px; }
+.sequence-item { padding: 9px 0; }
+.lesson-copy .section-heading { margin-bottom: 27px; }
+.fact-list li { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 17px; box-shadow: 0 7px 16px rgba(23,51,27,.04); }
+.fact-list li::after { content: ""; position: absolute; top: -13px; right: -12px; width: 48px; height: 48px; border-radius: 50%; background: var(--green-soft); }
+.fact-list strong, .fact-list span { position: relative; z-index: 1; }
+
+.rhythm-card { position: relative; overflow: hidden; min-height: 260px; border: 0; box-shadow: 0 12px 23px rgba(23,51,27,.06); }
+.rhythm-card::after { content: ""; position: absolute; right: -42px; bottom: -42px; width: 130px; height: 130px; border: 20px solid rgba(8,155,0,.08); border-radius: 50%; }
+.rhythm-icon { position: relative; z-index: 1; width: 58px; height: 58px; border-radius: 19px; }
+.rhythm-card small { position: relative; z-index: 1; }
+
+.progress-preview { position: relative; padding: 46px; overflow: hidden; border-radius: 34px; background: linear-gradient(130deg, #effbe3, #fff 60%); }
+.progress-preview::after { content: ""; position: absolute; right: -140px; top: -170px; width: 420px; height: 420px; border: 54px solid rgba(128,200,81,.23); border-radius: 50%; }
+.report-card { position: relative; z-index: 1; border: 0; box-shadow: 0 18px 36px rgba(23,51,27,.1); }
+.progress-preview > div:last-child { position: relative; z-index: 1; }
+
+.price-card { position: relative; overflow: hidden; min-height: 280px; border: 0; box-shadow: 0 12px 22px rgba(23,51,27,.06); }
+.price-card.featured { border: 0; box-shadow: 0 20px 38px rgba(0,110,0,.16); }
+.price-sprout { display: flex; position: absolute; top: -30px; right: -18px; align-items: end; gap: 5px; height: 95px; transform: rotate(-13deg); opacity: .75; }
+.price-sprout span { display: block; width: 14px; height: 45px; border-radius: 100% 0 100% 0; background: var(--green-growth); }
+.price-sprout span:nth-child(2) { height: 72px; background: var(--green); }
+.price-sprout span:nth-child(3) { height: 34px; background: var(--orange); }
+.price-card-top { position: relative; z-index: 1; }
+.price-card .button { position: absolute; right: 24px; bottom: 24px; left: 24px; }
+
+@media (max-width: 800px) {
+  .finder-panel { position: static; }
+  .finder-steps { grid-template-columns: 1fr; }
+  .mini-step { display: grid; grid-template-columns: 40px 1fr; min-height: 0; gap: 13px; align-items: start; padding: 16px; }
+  .mini-step:nth-child(2) { transform: none; }
+  .mini-step-number { margin: 0; }
+  .journey-track { display: none; }
+  .journey-card { min-height: 278px; }
+  .lesson-showcase { min-height: 460px; }
+  .progress-preview { padding: 28px; }
+}
+
+@media (max-width: 500px) {
+  .hero-photo { box-shadow: 13px 18px 0 rgba(252,165,21,.18), var(--shadow); }
+  .finder-scene { min-height: 240px; }
+  .finder-scene figcaption { right: 12px; bottom: 12px; width: 68%; }
+  .journey-art { width: 102px; height: 120px; }
+  .journey-card { min-height: 250px; }
+  .journey-card h3 { font-size: 30px; }
+  .lesson-showcase { min-height: 410px; }
+  .lesson-photo { right: 0; bottom: 28px; border-width: 7px; }
+  .lesson-card { width: 88%; padding: 20px; }
+  .lesson-card h3 { font-size: 22px; }
+  .progress-preview { padding: 22px; border-radius: 25px; }
+}
+
 .site-footer { padding: 64px 0 26px; background: #163b1c; color: white; }
 .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 34px; padding-bottom: 46px; }
 .footer-brand .brand-logo { width: 150px; }
