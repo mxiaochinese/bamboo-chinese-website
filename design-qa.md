@@ -1,31 +1,42 @@
-# Design QA — Bamboo Chinese, phương án 1
+# Design QA — Bamboo Chinese course detail
 
-## Phạm vi so sánh
+## Reference and implementation
 
-- Nguồn thiết kế đã chọn: `/Users/hoeng/.codex/generated_images/01a0bf89-cfe5-7932-af35-369ad6c1ed99/exec-27a7df1f-c431-4a15-8711-d3363d56e73f.png`
-- Bản triển khai: `http://localhost:4173/`
-- Viewport đã kiểm tra trực quan: desktop 1440 × 1000, tablet mặc định của Codex Browser và mobile 390 × 844.
+- Visual reference: https://mxiao.edu.vn/khoa-hoc/so-cap-0-hsk3
+- Bamboo implementation: http://localhost:4173/lo-trinh/yct-1/
+- Desktop review viewport: 1280 × 720 CSS px
+- Mobile review viewport: 390 × 844 CSS px
+- Review states: page top, course overview, curriculum, expanded FAQ, mobile stacked layout
 
-## Đối chiếu thiết kế
+## Visual comparison
 
-- Giữ đúng cấu trúc chính của phương án 1: header gọn, hero tương phản mạnh, kệ YCT1–YCT6, dải phương pháp học, đội ngũ giáo viên, cụm kỹ năng và CTA cuối trang.
-- Dùng ảnh thật do người dùng cung cấp cho hero và đủ sáu giáo trình; không dùng placeholder cho các nội dung này.
-- Dùng 14 ảnh và hồ sơ giáo viên từ nguồn MXiao trong trang danh sách và trang chi tiết.
-- Tăng độ tương phản bằng chữ xanh đậm trên nền sáng, section phương pháp xanh đậm/chữ trắng và CTA cam nổi bật.
-- Font nội dung dùng Gilroy Medium; tiêu đề tăng kích thước và trọng lượng để rõ thứ bậc.
-- Khoảng cách section được rút xuống 46–62 px; các nội dung liên quan được ghép thành dải liên tục thay vì nhiều box rời.
-- Icon dùng Font Awesome; chuyển động gồm sách nổi nhẹ, hover nâng card và zoom ảnh giáo viên, có hỗ trợ `prefers-reduced-motion`.
-- Mobile dùng kệ sách và dải giáo viên cuộn ngang có điểm dừng; menu khóa học mở thành danh sách YCT1–YCT6.
+The Bamboo implementation follows the reference page's information architecture and visual rhythm: breadcrumb and two-column course hero, prominent textbook artwork, compact overview dashboard, a sticky tuition/materials panel on desktop, continuous curriculum rows, teaching-method section, FAQ, teachers, and consultation form.
 
-## Kiểm tra chức năng và nội dung
+Intentional differences:
 
-- Navigation có Trang chủ, Khóa học, Phương pháp học, Đội ngũ giáo viên, Tiến bộ của con và Liên hệ; đã bỏ Góc phụ huynh khỏi navigation chính.
-- Học phí hiển thị đúng nguồn đã chốt: YCT1–2 là 6.500.000đ, YCT3–4 là 7.000.000đ, YCT5–6 là 9.500.000đ; tất cả ghi rõ Giảm 500.000đ.
-- 6 JSON khóa học, 6 ảnh sách, 14 hồ sơ và 14 ảnh giáo viên đều đọc được.
-- Các route trang chủ, lộ trình, YCT1, giáo viên, hồ sơ giáo viên và form tìm lớp đều trả HTTP 200.
-- Menu mobile, điều hướng SPA, trang hồ sơ giáo viên và accordion curriculum hoạt động.
-- Console trình duyệt: không có error hoặc warning.
+- Bamboo green/orange palette, logo, copy, YCT book artwork, and Gilroy typography replace MXiao branding.
+- The curriculum is a flat ordered list of sessions, matching the user's explicit instruction to remove the separate “mốc” classification.
+- MXiao-specific testimonial or student-ranking content is not copied where it does not fit Bamboo's current content.
+- All images are local Bamboo assets; the implementation does not hotlink MXiao assets.
 
-## Kết luận
+## Checks performed
 
-final result: passed
+- Desktop and mobile full-page structure compared against the reference.
+- Hero, overview, tuition card, curriculum rows, FAQ, teacher strip, and form inspected as focused regions.
+- Course-list link to YCT1 verified.
+- FAQ expansion verified.
+- Mobile horizontal overflow: none at 390 px.
+- Console warnings/errors: none.
+- Tuition copy verified as list price plus final discounted tuition; no “Giảm 500.000đ” label remains.
+- YCT1 curriculum verified at 28 sessions; YCT6 verified through session 35.
+
+## Iteration history
+
+1. Replaced the earlier generic detail layout with the MXiao-inspired two-column course architecture.
+2. Replaced grouped curriculum accordions with a single ordered session list.
+3. Moved the mobile tuition card directly below course information so pricing is not buried after the curriculum.
+4. Tightened responsive spacing and removed horizontal overflow.
+
+## Result
+
+Passed. No P0, P1, or P2 issues remain. The full-width Chinese parentheses retained in lesson titles are source-content typography and are non-blocking.

@@ -344,21 +344,12 @@ p { margin: 0 0 18px; }
 .milestone strong { display: block; margin-bottom: 9px; font-size: 30px; }
 .milestone h3 { font-size: 21px; }
 .milestone p { margin-top: 10px; color: var(--muted); }
-.curriculum-list { display: grid; gap: 10px; }
-.curriculum-group { overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: white; }
-.curriculum-group summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 20px; cursor: pointer; list-style: none; font-weight: 800; }
-.curriculum-group summary::-webkit-details-marker { display: none; }
-.curriculum-group summary::after { content: "+"; color: var(--green-dark); font-size: 22px; line-height: 1; }
-.curriculum-group[open] summary::after { content: "–"; }
-.curriculum-meta { color: var(--muted); font-size: 13px; font-weight: 600; }
-.session-list { display: grid; gap: 0; padding: 0 20px 10px; }
-.session { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--border); }
-.session-number { color: var(--green-dark); font-size: 13px; font-weight: 800; }
-.session-title { font-size: 14px; }
-.session-title small { display: block; color: var(--muted); font-family: "Noto Sans SC", sans-serif; font-size: 13px; }
-.session-type { padding: 5px 8px; border-radius: 99px; background: var(--green-soft); color: var(--green-dark); font-size: 11px; font-weight: 800; }
-.session-type.review { background: #eaf6dd; }
-.session-type.assessment { background: #fff0c9; color: #835100; }
+.curriculum-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: none; }
+.session { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: center; min-height: 92px; padding: 17px 18px; border: 1px solid rgba(0, 111, 25, .14); border-radius: 18px; background: rgba(255, 255, 255, .9); box-shadow: 0 8px 24px rgba(0, 82, 24, .06); }
+.session-number { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: linear-gradient(145deg, var(--green), var(--green-dark)); color: white; font-size: 13px; font-weight: 800; box-shadow: 0 6px 14px rgba(0, 117, 31, .18); }
+.session-title { min-width: 0; font-size: 16px; line-height: 1.35; }
+.session-title span { display: block; color: var(--green-dark); font-family: "Noto Sans SC", sans-serif; font-size: 14px; font-weight: 700; }
+.session-title strong { display: block; margin-top: 4px; font-size: 16px; font-weight: 700; }
 .price-callout { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px; border-radius: 24px; background: var(--green-dark); color: white; }
 .price-callout del { display: block; color: rgba(255,255,255,.7); }
 .price-callout .price-discount { color: var(--orange); }
@@ -586,8 +577,8 @@ p { margin: 0 0 18px; }
   .price-callout .button { width: 100%; }
   .course-nav { grid-template-columns: 1fr; }
   .course-nav-card.next { text-align: left; }
-  .session { grid-template-columns: 34px 1fr; }
-  .session-type { grid-column: 2; justify-self: start; }
+  .curriculum-list { grid-template-columns: 1fr; }
+  .session { grid-template-columns: 42px minmax(0, 1fr); min-height: 84px; padding: 15px; }
   .form-grid { grid-template-columns: 1fr; }
   .field.full { grid-column: auto; }
   .form-card { padding: 20px; }
