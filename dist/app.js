@@ -260,7 +260,7 @@ function teachers(path) {
 }
 
 function contactForm() {
-  return `<form class="form-card" data-lead-form novalidate><input type="hidden" name="brand" value="bamboo"><input type="hidden" name="formType" value="course-interest"><input type="hidden" name="sourcePage" value="${escapeHTML(currentPath())}"><p class="form-section-title">Thông tin về con</p><div class="form-grid"><div class="field"><label for="child-age">Tuổi của con</label><select id="child-age" name="childAge" required><option value="">Chọn độ tuổi</option><option>6-7 tuổi</option><option>8-9 tuổi</option><option>10-12 tuổi</option></select></div><div class="field"><label for="prior-learning">Con đã từng học tiếng Trung?</label><select id="prior-learning" name="priorLearning" data-prior-learning required><option value="">Chọn một phương án</option><option value="Rồi">Rồi</option><option value="Chưa">Chưa</option></select></div><div class="field full" data-level-field hidden><label for="previous-level">Cấp độ gần nhất nếu con đã từng học</label><select id="previous-level" name="previousLevel" data-previous-level><option value="">Chọn cấp độ gần nhất</option>${courses.map((course) => `<option>YCT${course.level}</option>`).join("")}<option value="Không nhớ">Không nhớ</option><option value="Khác">Khác</option></select><small>Nếu không nhớ chính xác, gia đình có thể chọn “Không nhớ”.</small></div><div class="field full" data-other-level-field hidden><label for="other-level">Cấp độ hoặc chương trình con đã học</label><input id="other-level" name="otherLevel" data-other-level placeholder="Ví dụ: HSK 1, giáo trình khác hoặc đã học tại trung tâm..."><small>Ghi theo thông tin gia đình nhớ được, không cần thật chính xác.</small></div><div class="field full"><label for="learning-mode">Hình thức học mong muốn</label><select id="learning-mode" name="learningMode" required><option value="">Chọn hình thức</option><option>Trực tuyến</option><option>Trực tiếp</option><option>Chưa quyết định</option></select></div></div><hr class="form-divider"><p class="form-section-title">Thông tin phụ huynh</p><div class="form-grid"><div class="field"><label for="parent-name">Tên phụ huynh</label><input id="parent-name" name="parentName" autocomplete="name" required></div><div class="field"><label for="parent-phone">Số điện thoại</label><input id="parent-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div><div class="field full"><label for="parent-email">Email <span class="muted">(tùy chọn)</span></label><input id="parent-email" name="email" type="email" autocomplete="email"></div><div class="field full"><label for="parent-note">Điều gia đình muốn trao đổi <span class="muted">(tùy chọn)</span></label><textarea id="parent-note" name="note" placeholder="Ví dụ: gia đình muốn được tư vấn điểm bắt đầu"></textarea></div></div><div class="form-error" data-form-error role="alert"></div><div class="form-success" data-form-success role="status">Bamboo đã nhận thông tin của bạn.</div><button class="button primary full" type="submit">Gửi thông tin cho Bamboo</button></form>`;
+  return `<form class="form-card" data-lead-form novalidate><input type="hidden" name="brand" value="bamboo"><input type="hidden" name="formType" value="course-interest"><input type="hidden" name="sourcePage" value="${escapeHTML(currentPath())}"><input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="form-section-title">Thông tin về con</p><div class="form-grid"><div class="field"><label for="child-age">Tuổi của con</label><select id="child-age" name="childAge" required><option value="">Chọn độ tuổi</option><option>6-7 tuổi</option><option>8-9 tuổi</option><option>10-12 tuổi</option></select></div><div class="field"><label for="prior-learning">Con đã từng học tiếng Trung?</label><select id="prior-learning" name="priorLearning" data-prior-learning required><option value="">Chọn một phương án</option><option value="Rồi">Rồi</option><option value="Chưa">Chưa</option></select></div><div class="field full" data-level-field hidden><label for="previous-level">Cấp độ gần nhất nếu con đã từng học</label><select id="previous-level" name="previousLevel" data-previous-level><option value="">Chọn cấp độ gần nhất</option>${courses.map((course) => `<option>YCT${course.level}</option>`).join("")}<option value="Không nhớ">Không nhớ</option><option value="Khác">Khác</option></select><small>Nếu không nhớ chính xác, gia đình có thể chọn “Không nhớ”.</small></div><div class="field full" data-other-level-field hidden><label for="other-level">Cấp độ hoặc chương trình con đã học</label><input id="other-level" name="otherLevel" data-other-level placeholder="Ví dụ: HSK 1, giáo trình khác hoặc đã học tại trung tâm..."><small>Ghi theo thông tin gia đình nhớ được, không cần thật chính xác.</small></div><div class="field full"><label for="learning-mode">Hình thức học mong muốn</label><select id="learning-mode" name="learningMode" required><option value="">Chọn hình thức</option><option>Trực tuyến</option><option>Trực tiếp</option><option>Chưa quyết định</option></select></div></div><hr class="form-divider"><p class="form-section-title">Thông tin phụ huynh</p><div class="form-grid"><div class="field"><label for="parent-name">Tên phụ huynh</label><input id="parent-name" name="parentName" autocomplete="name" required></div><div class="field"><label for="parent-phone">Số điện thoại</label><input id="parent-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div><div class="field full"><label for="parent-email">Email <span class="muted">(tùy chọn)</span></label><input id="parent-email" name="email" type="email" autocomplete="email"></div><div class="field full"><label for="parent-note">Điều gia đình muốn trao đổi <span class="muted">(tùy chọn)</span></label><textarea id="parent-note" name="note" placeholder="Ví dụ: gia đình muốn được tư vấn điểm bắt đầu"></textarea></div></div><div class="form-error" data-form-error role="alert"></div><div class="form-success" data-form-success role="status">Bamboo đã nhận thông tin. Đội ngũ tư vấn sẽ sớm liên hệ với gia đình.</div><button class="button primary full" type="submit">Gửi thông tin cho Bamboo</button></form>`;
 }
 
 function leadPage() {
@@ -435,17 +435,71 @@ function bindInteractions() {
   priorLearning?.addEventListener("change", syncLearningFields);
   previousLevel?.addEventListener("change", syncLearningFields);
   syncLearningFields();
-  form?.addEventListener("submit", (event) => {
+  form?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const error = form.querySelector("[data-form-error]");
+    const success = form.querySelector("[data-form-success]");
+    const submitButton = form.querySelector("button[type=submit]");
+    success.classList.remove("visible");
     if (!form.checkValidity()) {
       error.textContent = "Vui lòng điền các thông tin bắt buộc trước khi gửi.";
       form.reportValidity();
       return;
     }
     error.textContent = "";
-    form.querySelector("[data-form-success]").classList.add("visible");
-    form.querySelector("button[type=submit]").disabled = true;
+    submitButton.disabled = true;
+    submitButton.setAttribute("aria-busy", "true");
+    const originalButtonText = submitButton.textContent;
+    submitButton.textContent = "Đang gửi thông tin...";
+
+    const data = new FormData(form);
+    const priorLearningValue = String(data.get("priorLearning") || "");
+    const selectedLevel = priorLearningValue === "Rồi" ? String(data.get("previousLevel") || "") : "Không áp dụng";
+    const currentLevel = selectedLevel === "Khác" ? String(data.get("otherLevel") || "") : selectedLevel;
+    const familyNote = String(data.get("note") || "").trim();
+    const detailNote = [
+      `Thương hiệu: Bamboo Chinese`,
+      `Tuổi của con: ${String(data.get("childAge") || "")}`,
+      `Đã từng học tiếng Trung: ${priorLearningValue}`,
+      `Cấp độ gần nhất: ${currentLevel || "Không nhớ"}`,
+      `Hình thức mong muốn: ${String(data.get("learningMode") || "")}`,
+      familyNote ? `Nội dung cần trao đổi: ${familyNote}` : "",
+    ].filter(Boolean).join("\n");
+    const courseMatch = currentPath().match(/yct-(\d)/);
+
+    try {
+      const response = await fetch("https://mxiao.edu.vn/api/bamboo-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: String(data.get("parentName") || ""),
+          phone: String(data.get("phone") || ""),
+          email: String(data.get("email") || ""),
+          age: String(data.get("childAge") || ""),
+          currentLevel,
+          preferredTime: String(data.get("learningMode") || ""),
+          interestedCourse: courseMatch ? `YCT${courseMatch[1]}` : "Tư vấn lộ trình YCT",
+          source: "bamboo-chinese",
+          sourcePage: currentPath(),
+          sourceSection: "bamboo-course-finder",
+          landingPage: window.location.href,
+          referrer: document.referrer,
+          submittedAt: new Date().toISOString(),
+          note: detailNote,
+          website: String(data.get("website") || ""),
+        }),
+      });
+      const responseData = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(responseData?.error || "Không thể gửi thông tin lúc này.");
+      success.classList.add("visible");
+      submitButton.textContent = "Đã gửi thông tin";
+    } catch (submitError) {
+      error.textContent = submitError instanceof Error ? submitError.message : "Không thể gửi thông tin. Vui lòng thử lại.";
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+    } finally {
+      submitButton.removeAttribute("aria-busy");
+    }
   });
 }
 

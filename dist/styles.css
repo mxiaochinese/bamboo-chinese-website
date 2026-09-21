@@ -395,6 +395,7 @@ p { margin: 0 0 18px; }
 .field textarea { min-height: 96px; resize: vertical; }
 .field small { color: var(--muted); font-size: 12px; }
 .field[hidden] { display: none !important; }
+.honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
 .form-divider { margin: 28px 0; border: 0; border-top: 1px solid var(--border); }
 .form-success { display: none; padding: 16px; border-radius: 14px; background: var(--green-soft); color: var(--green-dark); font-weight: 700; }
 .form-success.visible { display: block; }
