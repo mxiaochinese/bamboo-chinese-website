@@ -111,6 +111,26 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .price-value .promo-countdown { margin-top: 6px; }
 .shelf-link { display: flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--green-dark); font-size: 12px; font-weight: 800; }
 
+/* Shared 48-hour offer: a compact floating entry point plus the full clock on course pages. */
+.promo-clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; font-variant-numeric: tabular-nums; }
+.promo-clock[hidden], .floating-promotion[hidden] { display: none !important; }
+.promo-clock-unit { display: grid; min-width: 48px; place-items: center; padding: 7px 5px 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 13px; background: rgba(255,255,255,.11); }
+.promo-clock-unit strong { color: white; font-size: 18px; font-weight: 800; line-height: 1; }
+.promo-clock-unit small { margin-top: 4px; color: rgba(255,255,255,.72); font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.course-promo-clock { margin: -5px 0 18px; }
+
+.floating-promotion { position: fixed; right: 18px; bottom: 18px; z-index: 45; display: grid; grid-template-columns: auto auto auto auto; gap: 11px; align-items: center; max-width: calc(100vw - 36px); padding: 11px 12px; border: 1px solid rgba(255,255,255,.25); border-radius: 20px; background: linear-gradient(135deg, #075522 0%, #0a7d27 58%, #0a9f12 100%); color: white; box-shadow: 0 18px 48px rgba(7, 60, 28, .28), inset 0 1px 0 rgba(255,255,255,.18); transition: transform .2s ease, box-shadow .2s ease; }
+.floating-promotion:hover { color: white; transform: translateY(-3px); box-shadow: 0 23px 54px rgba(7, 60, 28, .34), inset 0 1px 0 rgba(255,255,255,.18); }
+.floating-promotion-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 12px; background: var(--orange); color: #4b2b00; box-shadow: 0 7px 15px rgba(0,0,0,.13); }
+.floating-promotion-copy { display: grid; min-width: 118px; }
+.floating-promotion-copy small { color: #ffd688; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.floating-promotion-copy strong { margin-top: 1px; color: white; font-size: 14px; line-height: 1.15; }
+.floating-promo-clock { gap: 4px; }
+.floating-promo-clock .promo-clock-unit { min-width: 39px; padding: 6px 4px 5px; border-radius: 10px; }
+.floating-promo-clock .promo-clock-unit strong { font-size: 15px; }
+.floating-promo-clock .promo-clock-unit small { margin-top: 3px; font-size: 7px; }
+.floating-promotion-arrow { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; background: white; color: var(--green-dark); }
+
 .development-journey { overflow: hidden; border: 1px solid #d8dfc5; border-radius: 24px; background: white; box-shadow: var(--shadow-soft); }
 .journey-phases { display: grid; grid-template-columns: repeat(3, 1fr); background: linear-gradient(110deg, #07491f, #13772d); color: white; }
 .journey-phases span { display: flex; gap: 10px; align-items: center; justify-content: center; padding: 13px 18px; border-left: 1px solid rgba(255,255,255,.18); font-size: 14px; font-weight: 800; }
@@ -504,6 +524,16 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .course-teachers .teacher-strip { grid-template-columns: repeat(3, 78vw); }
   .course-lead-copy { padding: 22px; }
   .course-lead-copy h3 { font-size: 26px; }
+  .floating-promotion { right: 10px; bottom: 10px; left: 10px; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; padding: 9px 10px; border-radius: 17px; }
+  .floating-promotion-icon { display: none; }
+  .floating-promotion-copy { min-width: 0; }
+  .floating-promotion-copy small { display: none; }
+  .floating-promotion-copy strong { font-size: 13px; white-space: nowrap; }
+  .floating-promo-clock { gap: 3px; }
+  .floating-promo-clock .promo-clock-unit { min-width: 34px; padding: 5px 3px 4px; border-radius: 9px; }
+  .floating-promo-clock .promo-clock-unit strong { font-size: 14px; }
+  .floating-promo-clock .promo-clock-unit small { font-size: 6px; }
+  .floating-promotion-arrow { width: 25px; height: 25px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

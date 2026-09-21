@@ -45,6 +45,25 @@ function countdownText(milliseconds) {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+function countdownParts(milliseconds) {
+  const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+  return {
+    days: String(Math.floor(totalSeconds / 86400)).padStart(2, "0"),
+    hours: String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, "0"),
+    minutes: String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0"),
+    seconds: String(totalSeconds % 60).padStart(2, "0"),
+  };
+}
+
+function promoClock(className = "") {
+  const units = [["days", "Ngày"], ["hours", "Giờ"], ["minutes", "Phút"], ["seconds", "Giây"]];
+  return `<div class="promo-clock ${className}" data-promo-clock aria-label="Thời gian ưu đãi còn lại">${units.map(([part, label]) => `<span class="promo-clock-unit"><strong data-promo-part="${part}">00</strong><small>${label}</small></span>`).join("")}</div>`;
+}
+
+function floatingPromotion() {
+  return `<a class="floating-promotion" href="/lo-trinh" data-floating-promotion aria-label="Xem các khóa học đang có ưu đãi"><span class="floating-promotion-icon">${icon("star", 16)}</span><span class="floating-promotion-copy"><small>ƯU ĐÃI HỌC PHÍ</small><strong>Xem các khóa học</strong></span>${promoClock("floating-promo-clock")}<span class="floating-promotion-arrow">${icon("arrow", 13)}</span></a>`;
+}
+
 function promoAttributes(course) {
   return `data-list-price="${course.pricing.listPrice}" data-sale-price="${discountedPrice(course)}"`;
 }
@@ -128,7 +147,7 @@ function footer() {
 }
 
 function shell(content) {
-  return `${header()}<main id="main-content">${content}</main>${footer()}`;
+  return `${header()}<main id="main-content">${content}</main>${floatingPromotion()}${footer()}`;
 }
 
 function pageHero(eyebrow, title, description, symbol = "竹") {
@@ -222,10 +241,10 @@ function coursePage(course) {
     <section class="course-detail-hero"><div class="container"><div class="breadcrumb">${link("Trang chủ", "/")}<span>›</span>${link("Khóa học - Lộ trình", "/lo-trinh")}<span>›</span><span>YCT${course.level}</span></div><div class="course-detail-hero-grid"><div class="course-detail-hero-copy"><p class="eyebrow">LỘ TRÌNH TIẾNG TRUNG TRẺ EM</p><h1>Khóa học YCT${course.level}</h1><p class="lede">${course.duration.totalSessions} buổi giúp trẻ phát triển đồng đều Nghe - Nói - Đọc - Viết bằng những chủ đề gần gũi, phù hợp với độ tuổi.</p><div class="course-actions">${htmlLink(`${icon("message", 16)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button primary")}${link("Xem toàn bộ lộ trình", "/lo-trinh", "button secondary")}</div></div><div class="course-book-visual"><span class="book-standard">GIÁO TRÌNH CHUẨN</span><span class="book-level">YCT${course.level}</span><img src="${courseBook(course.level)}" alt="Giáo trình YCT${course.level}" loading="eager"></div></div></div></section>
     <section class="course-overview"><div class="container"><div class="course-section-title"><p class="eyebrow">TỔNG QUAN</p><h2>Thông tin khóa học</h2><p>Các thông tin phụ huynh cần xem trước khi chọn lớp: đầu vào, đầu ra, số buổi, sĩ số, học phí và nội dung từng buổi.</p></div><div class="course-detail-layout"><div class="course-main-column">
       <article class="course-panel course-info-panel"><h3>Đầu vào, đầu ra và nhịp học</h3><div class="course-stat-grid"><div><span class="course-stat-icon">${icon("flag", 18)}</span><small>ĐẦU VÀO</small><strong>${escapeHTML(entry)}</strong></div><div><span class="course-stat-icon">${icon("trophy", 18)}</span><small>ĐẦU RA</small><strong>${escapeHTML(outcome)}</strong></div><div><span class="course-stat-icon">${icon("calendar", 18)}</span><small>SỐ BUỔI</small><strong>${course.duration.totalSessions} buổi</strong></div><div><span class="course-stat-icon">${icon("users", 18)}</span><small>SĨ SỐ</small><strong>${course.classSize.maxOnline}-${course.classSize.maxOffline} bạn</strong></div></div><div class="course-skills"><p>BỐN KỸ NĂNG TRONG KHÓA HỌC</p><div><span>${icon("headphones", 14)} Nghe</span><span>${icon("message", 14)} Nói</span><span>${icon("book", 14)} Đọc</span><span>${icon("pen", 14)} Viết</span></div></div></article>
-      <article class="course-price-card course-price-mobile promo-price${initialPromoState()}" ${promoAttributes(course)}><p data-promo-label>HỌC PHÍ ƯU ĐÃI</p><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><strong data-current-price>${formatPrice(discountedPrice(course))}</strong><span class="promo-countdown course-countdown" data-promo-countdown></span>${htmlLink(`<span>Nhận tư vấn khóa học</span>${icon("arrow", 14)}`, "/tim-lop-cho-con", "button light full")}</article>
+      <article class="course-price-card course-price-mobile promo-price${initialPromoState()}" ${promoAttributes(course)}><p data-promo-label>HỌC PHÍ ƯU ĐÃI</p><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><strong data-current-price>${formatPrice(discountedPrice(course))}</strong>${promoClock("course-promo-clock")}${htmlLink(`<span>Nhận tư vấn khóa học</span>${icon("arrow", 14)}`, "/tim-lop-cho-con", "button light full")}</article>
       <article class="course-panel course-highlights"><h3>Điểm nổi bật</h3><div class="highlight-list">${highlights.map((item) => `<div>${icon("check", 14)}<span>${escapeHTML(item)}</span></div>`).join("")}</div></article>
       <article class="course-panel course-curriculum"><div class="course-panel-heading"><div><p class="eyebrow">NỘI DUNG YCT${course.level}</p><h3>Lộ trình buổi học</h3></div><span>${course.duration.totalSessions} BUỔI</span></div>${curriculumSessions(course)}</article>
-    </div><aside class="course-side-column"><article class="course-price-card promo-price${initialPromoState()}" ${promoAttributes(course)}><p data-promo-label>HỌC PHÍ ƯU ĐÃI</p><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><strong data-current-price>${formatPrice(discountedPrice(course))}</strong><span class="promo-countdown course-countdown" data-promo-countdown></span>${htmlLink(`<span>Nhận tư vấn khóa học</span>${icon("arrow", 14)}`, "/tim-lop-cho-con", "button light full")}</article><article class="course-panel course-gifts"><p class="eyebrow">ĐI KÈM KHÓA HỌC</p><h3>Giáo trình & học cụ</h3><div class="gift-list"><div>${icon("check", 14)}<span>Giáo trình chuẩn YCT${course.level}</span></div><div>${icon("check", 14)}<span>Vở viết chữ Hán và dụng cụ học tập</span></div><div>${icon("check", 14)}<span>Tài liệu ôn tập theo chương trình</span></div><div>${icon("check", 14)}<span>Phản hồi học tập trong quá trình học</span></div></div></article><article class="course-panel course-commitment"><span class="commitment-icon">${icon("shield", 24)}</span><div><h3>Đồng hành rõ ràng</h3><p>Bamboo theo sát nội dung học và trao đổi cùng phụ huynh trong suốt khóa.</p></div></article></aside></div></div></section>
+    </div><aside class="course-side-column"><article class="course-price-card promo-price${initialPromoState()}" ${promoAttributes(course)}><p data-promo-label>HỌC PHÍ ƯU ĐÃI</p><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><strong data-current-price>${formatPrice(discountedPrice(course))}</strong>${promoClock("course-promo-clock")}${htmlLink(`<span>Nhận tư vấn khóa học</span>${icon("arrow", 14)}`, "/tim-lop-cho-con", "button light full")}</article><article class="course-panel course-gifts"><p class="eyebrow">ĐI KÈM KHÓA HỌC</p><h3>Giáo trình & học cụ</h3><div class="gift-list"><div>${icon("check", 14)}<span>Giáo trình chuẩn YCT${course.level}</span></div><div>${icon("check", 14)}<span>Vở viết chữ Hán và dụng cụ học tập</span></div><div>${icon("check", 14)}<span>Tài liệu ôn tập theo chương trình</span></div><div>${icon("check", 14)}<span>Phản hồi học tập trong quá trình học</span></div></div></article><article class="course-panel course-commitment"><span class="commitment-icon">${icon("shield", 24)}</span><div><h3>Đồng hành rõ ràng</h3><p>Bamboo theo sát nội dung học và trao đổi cùng phụ huynh trong suốt khóa.</p></div></article></aside></div></div></section>
     <section class="course-method"><div class="container course-method-grid"><div><p class="eyebrow">CÁCH BAMBOO DẠY</p><h2>Học qua tương tác và thực hành.</h2><p class="lede">Mỗi buổi ${course.duration.minutesPerSession || 90} phút tạo cơ hội để trẻ nghe, nói, đọc và viết ngay trong lớp nhỏ.</p>${link("Xem phương pháp học", "/cach-bamboo-day", "button secondary")}</div><div class="method-chip-grid"><div>${icon("headphones", 22)}<span><strong>Nghe</strong>Nhận diện âm thanh</span></div><div>${icon("message", 22)}<span><strong>Nói</strong>Tăng phản xạ</span></div><div>${icon("book", 22)}<span><strong>Đọc</strong>Hiểu chủ đề</span></div><div>${icon("pen", 22)}<span><strong>Viết</strong>Nhớ mặt chữ</span></div></div></div></section>
     <section class="section course-faq-section"><div class="container"><div class="course-section-title"><p class="eyebrow">GIẢI ĐÁP</p><h2>Câu hỏi thường gặp về YCT${course.level}</h2></div><div class="course-faq-list"><details open><summary>Khóa YCT${course.level} phù hợp với ai?</summary><p>Phù hợp với trẻ 6-12 tuổi có đầu vào: ${escapeHTML(entry.toLowerCase())}.</p></details><details><summary>Khóa học có bao nhiêu buổi?</summary><p>Khóa YCT${course.level} gồm ${course.duration.totalSessions} buổi, mỗi buổi ${course.duration.minutesPerSession || 90} phút.</p></details><details><summary>Sĩ số lớp được tổ chức như thế nào?</summary><p>Lớp online tối đa ${course.classSize.maxOnline} bạn; lớp trực tiếp tối đa ${course.classSize.maxOffline} bạn để giáo viên có thời gian tương tác với từng trẻ.</p></details><details><summary>Con sẽ học bằng tài liệu gì?</summary><p>Trẻ học theo giáo trình chuẩn YCT${course.level}, đi cùng học cụ và tài liệu ôn tập phù hợp với chương trình.</p></details></div></div></section>
     <section class="course-teachers"><div class="container"><div class="split-heading"><div><p class="eyebrow">GIÁO VIÊN</p><h2>Đội ngũ đồng hành cùng con.</h2></div>${link("Xem toàn bộ giáo viên", "/giao-vien", "button secondary")}</div>${teacherShowcase(3)}</div></section>
@@ -376,6 +395,7 @@ function renderFinder(root) {
 
 function updatePromotionUI() {
   const state = promotionState();
+  const parts = countdownParts(state.remaining);
   document.querySelectorAll(".promo-price").forEach((element) => {
     const listPrice = Number(element.dataset.listPrice);
     const salePrice = Number(element.dataset.salePrice);
@@ -387,6 +407,15 @@ function updatePromotionUI() {
     const label = element.querySelector("[data-promo-label]");
     if (label) label.textContent = state.active ? "HỌC PHÍ ƯU ĐÃI" : "HỌC PHÍ";
   });
+  document.querySelectorAll("[data-promo-clock]").forEach((clock) => {
+    clock.hidden = !state.active;
+    Object.entries(parts).forEach(([part, value]) => {
+      const target = clock.querySelector(`[data-promo-part="${part}"]`);
+      if (target) target.textContent = value;
+    });
+  });
+  const floatingPromotion = document.querySelector("[data-floating-promotion]");
+  if (floatingPromotion) floatingPromotion.hidden = !state.active;
   if (!state.active && promotionTimer) {
     clearInterval(promotionTimer);
     promotionTimer = null;
