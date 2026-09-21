@@ -193,6 +193,33 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .journey-outcome p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 .journey-outcome .arrow-link { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
 
+/* Homepage YCT ladder — adapted from the stepped course rhythm on MXiao. */
+.ladder-journey { border-color: #d8dfc5; background: linear-gradient(180deg, #f8fff4 0%, #fffdf2 100%); }
+.yct-ladder { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; align-items: end; min-height: 535px; padding: 24px 18px 0; background: radial-gradient(circle at 10% 8%, rgba(255,255,255,.95), transparent 24%), radial-gradient(circle at 88% 16%, rgba(255,200,86,.22), transparent 25%), linear-gradient(145deg, #e7f8e7 0%, #f2f9dd 54%, #fff5d7 100%); }
+.yct-ladder-slot { display: flex; min-width: 0; align-items: flex-end; }
+.yct-ladder-card { --stage-color: #20ad88; position: relative; display: flex; width: 100%; height: var(--ladder-height); min-width: 0; overflow: hidden; flex-direction: column; padding: 15px; border: 1px solid color-mix(in srgb, var(--stage-color) 28%, white); border-radius: 23px 23px 7px 7px; background: linear-gradient(180deg, rgba(255,255,255,.96), color-mix(in srgb, var(--stage-color) 10%, #fff9e8)); box-shadow: 0 13px 28px rgba(18, 70, 32, .09); color: var(--green-ink); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.yct-ladder-card.level-2 { --stage-color: #7760d7; }
+.yct-ladder-card.level-3 { --stage-color: #16aebd; }
+.yct-ladder-card.level-4 { --stage-color: #f29324; }
+.yct-ladder-card.level-5 { --stage-color: #d91545; }
+.yct-ladder-card.level-6 { --stage-color: #1499c3; }
+.yct-ladder-card::after { position: absolute; right: -37px; bottom: -42px; width: 125px; height: 125px; border: 18px solid color-mix(in srgb, var(--stage-color) 11%, transparent); border-radius: 50%; content: ""; }
+.yct-ladder-card:hover, .yct-ladder-card:focus-visible { z-index: 3; border-color: var(--stage-color); outline: none; box-shadow: 0 23px 48px color-mix(in srgb, var(--stage-color) 22%, transparent); transform: translateY(-9px); }
+.ladder-card-head { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ladder-level { padding: 6px 9px; border: 1px solid color-mix(in srgb, var(--stage-color) 30%, white); border-radius: 999px; background: white; color: var(--stage-color); font-size: 12px; font-weight: 800; }
+.ladder-number { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: var(--stage-color); color: white; font-size: 11px; font-weight: 800; box-shadow: 0 7px 16px color-mix(in srgb, var(--stage-color) 24%, transparent); }
+.ladder-book { position: relative; z-index: 1; display: grid; height: 112px; margin: 8px 0 3px; place-items: center; }
+.ladder-book img { width: auto; max-width: 86px; height: 108px; object-fit: contain; filter: drop-shadow(0 9px 7px rgba(20, 51, 28, .17)); transition: transform .25s ease; }
+.yct-ladder-card:hover .ladder-book img, .yct-ladder-card:focus-visible .ladder-book img { transform: translateY(-4px) rotate(-2deg); }
+.ladder-phase { position: relative; z-index: 1; display: flex; gap: 6px; align-items: center; margin: 3px 0 5px; color: var(--stage-color); font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.yct-ladder-card h3 { position: relative; z-index: 1; margin: 0; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.16; }
+.ladder-copy { position: relative; z-index: 1; margin: 8px 0 0; color: #3c5943; font-size: 12px; font-weight: 600; line-height: 1.42; }
+.ladder-link { position: relative; z-index: 1; display: flex; gap: 6px; align-items: center; margin-top: auto; padding-top: 9px; color: var(--stage-color); font-size: 12px; font-weight: 800; }
+.ladder-axis { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 19px; border-top: 1px solid #d8dfc5; background: #fffef7; color: var(--green-deep); font-size: 12px; font-weight: 800; }
+.ladder-axis span { display: inline-flex; gap: 6px; align-items: center; }
+.ladder-axis span:nth-child(2) { flex: 1; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
+.ladder-axis span:nth-child(2)::before, .ladder-axis span:nth-child(2)::after { height: 1px; flex: 1; background: #c8d9c7; content: ""; }
+
 .method-section { padding: 54px 0; background: linear-gradient(125deg, #075522, #15782e); color: white; }
 .learning-flow { display: grid; grid-template-columns: 1fr 45px 1fr 45px 1fr; align-items: stretch; overflow: hidden; border: 1px solid rgba(255, 255, 255, .24); border-radius: 22px; }
 .learning-flow article { display: flex; gap: 16px; padding: 24px; background: white; color: var(--green-ink); }
@@ -411,6 +438,9 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .development-stage:nth-child(3) { border-right: 0; }
   .development-stage:nth-child(-n+3) { border-bottom: 1px solid #e2e9da; }
   .course-detail-layout { grid-template-columns: minmax(0, 1.5fr) minmax(290px, .8fr); }
+  .yct-ladder { grid-template-columns: repeat(6, 220px); min-height: 505px; overflow-x: auto; padding-right: 18px; scroll-snap-type: x mandatory; }
+  .yct-ladder-slot { scroll-snap-align: start; }
+  .yct-ladder-card { height: var(--ladder-tablet-height); }
 }
 
 @media (max-width: 900px) {
@@ -478,6 +508,10 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .road-stage-card { width: 136px; padding: 10px 11px; }
   .road-stage-card h3 { font-size: 16px; }
   .road-stage-card > p:last-child { display: none; }
+  .yct-ladder { grid-template-columns: repeat(6, 76vw); min-height: 455px; gap: 9px; padding: 18px 12px 0; }
+  .yct-ladder-card { height: var(--ladder-mobile-height); }
+  .ladder-axis { padding: 10px 13px; }
+  .ladder-axis span:nth-child(2) { display: none; }
 }
 
 @media (max-width: 520px) {
