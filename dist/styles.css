@@ -232,6 +232,11 @@ p { margin: 0 0 18px; }
 .finder-result p { margin-bottom: 8px; color: rgba(255,255,255,.82); }
 .finder-result strong { display: block; margin-bottom: 5px; font-size: 20px; }
 .finder-result .button { margin-top: 10px; }
+.finder-other-label { display: block; margin-bottom: 9px; font-size: 14px; font-weight: 700; }
+.finder-other-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
+.finder-other-row input { min-width: 0; padding: 12px 13px; border: 1px solid rgba(255,255,255,.45); border-radius: 10px; background: white; color: var(--green-ink); }
+.finder-other-row .button { margin-top: 0; }
+.finder-result small { display: block; margin-top: 8px; color: rgba(255,255,255,.76); }
 .finder-steps { display: grid; gap: 18px; }
 .mini-step { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; }
 .mini-step-number { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px; background: var(--green-soft); color: var(--green-dark); font-weight: 800; }
@@ -389,6 +394,7 @@ p { margin: 0 0 18px; }
 .field input::placeholder, .field textarea::placeholder { color: #849384; }
 .field textarea { min-height: 96px; resize: vertical; }
 .field small { color: var(--muted); font-size: 12px; }
+.field[hidden] { display: none !important; }
 .form-divider { margin: 28px 0; border: 0; border-top: 1px solid var(--border); }
 .form-success { display: none; padding: 16px; border-radius: 14px; background: var(--green-soft); color: var(--green-dark); font-weight: 700; }
 .form-success.visible { display: block; }
@@ -580,6 +586,8 @@ p { margin: 0 0 18px; }
   .curriculum-list { grid-template-columns: 1fr; }
   .session { grid-template-columns: 42px minmax(0, 1fr); min-height: 84px; padding: 15px; }
   .form-grid { grid-template-columns: 1fr; }
+  .finder-other-row { grid-template-columns: 1fr; }
+  .finder-other-row .button { width: 100%; }
   .field.full { grid-column: auto; }
   .form-card { padding: 20px; }
   .cta-banner { padding: 38px 24px; }
