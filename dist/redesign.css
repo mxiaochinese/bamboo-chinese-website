@@ -137,8 +137,8 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .road-surface { stroke: url("#roadGradient"); stroke: #13732d; stroke-width: 54; filter: drop-shadow(0 14px 12px rgba(11, 68, 32, .16)); }
 .road-center { stroke: rgba(255, 255, 255, .88); stroke-width: 4; stroke-dasharray: 16 18; animation: roadFlow 16s linear infinite; }
 .road-label { position: absolute; z-index: 2; display: inline-flex; gap: 7px; align-items: center; padding: 8px 12px; border: 2px solid rgba(255,255,255,.84); border-radius: 999px; background: rgba(255,255,255,.88); color: var(--green-deep); box-shadow: 0 8px 22px rgba(14, 72, 31, .12); font-size: 13px; font-weight: 800; backdrop-filter: blur(8px); }
-.road-start { top: 18px; left: 15%; }
-.road-finish { right: 36%; bottom: 16px; background: linear-gradient(135deg, #ffbc3f, var(--orange)); color: #4a2a00; }
+.road-start { top: 18px; right: 4%; left: auto; }
+.road-finish { right: 6%; bottom: 16px; background: linear-gradient(135deg, #ffbc3f, var(--orange)); color: #4a2a00; }
 .road-stop { --stop-color: #20ad88; position: absolute; z-index: 3; transform: translate(-50%, -50%); }
 .road-stop.stop-1 { top: 9%; left: 7.5%; }
 .road-stop.stop-2 { top: 27%; left: 26.5%; --stop-color: #7456cf; }
@@ -151,11 +151,14 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .road-pin.goal { background: linear-gradient(135deg, #ffb52d, #f38900); color: #4a2a00; }
 .road-pin strong { font-size: 15px; letter-spacing: .01em; }
 .road-stage-card { position: absolute; top: -8px; left: calc(100% + 12px); width: 224px; padding: 15px 16px 14px; border: 1px solid color-mix(in srgb, var(--stop-color) 38%, white); border-radius: 17px; background: rgba(255, 255, 255, .94); box-shadow: 0 12px 28px rgba(17, 68, 30, .13); backdrop-filter: blur(8px); }
-.road-stop.stop-2 .road-stage-card, .road-stop.stop-3 .road-stage-card, .road-stop.stop-5 .road-stage-card { right: calc(100% + 12px); left: auto; }
-.road-stop.stop-6 .road-stage-card { top: -118px; right: calc(100% + 12px); left: auto; }
+.road-stop.stop-1 .road-stage-card { top: -20px; }
+.road-stop.stop-3 .road-stage-card, .road-stop.stop-5 .road-stage-card { right: calc(100% + 12px); left: auto; }
+.road-stop.stop-5 .road-stage-card { top: -38px; }
+.road-stop.stop-6 .road-stage-card { top: -84px; right: calc(100% + 42px); left: auto; }
 .road-stage-card .stage-phase { margin: 0 0 4px !important; color: var(--stop-color) !important; font-size: 11px !important; }
 .road-stage-card h3 { margin: 0; color: var(--green-ink); font-size: 19px; line-height: 1.18; }
 .road-stage-card > p:last-child { margin: 6px 0 0; color: #3d5a44; font-size: 13px; font-weight: 600; line-height: 1.38; }
+.road-stop.stop-6 .road-stage-card > p:last-child { display: none; }
 .journey-outcome { display: grid; grid-template-columns: 45px minmax(0, 1fr) auto; gap: 15px; align-items: center; padding: 20px 24px; border-top: 1px solid #d8dfc5; background: linear-gradient(110deg, var(--green-soft), #eef8d7); }
 .journey-outcome > span { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 14px; background: var(--green-dark); color: white; }
 .journey-outcome strong { color: var(--green-deep); font-size: 17px; }
@@ -294,24 +297,6 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .development-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
   .development-stage { min-width: 245px; border-right: 1px solid #e2e9da !important; border-bottom: 0 !important; scroll-snap-align: start; }
   .development-stage:last-child { border-right: 0 !important; }
-  .roadmap { min-height: 1160px; }
-  .road-svg-desktop { display: none; }
-  .road-svg-mobile { display: block; }
-  .road-start { top: 16px; right: 16px; left: auto; }
-  .road-finish { right: 18px; bottom: 16px; }
-  .road-stop.stop-1 { top: 6%; left: 14%; }
-  .road-stop.stop-2 { top: 22.5%; left: 45%; }
-  .road-stop.stop-3 { top: 39%; left: 59%; }
-  .road-stop.stop-4 { top: 56%; left: 42%; }
-  .road-stop.stop-5 { top: 73%; left: 63%; }
-  .road-stop.stop-6 { top: 94%; left: 50%; }
-  .road-stage-card { top: -8px; right: auto; left: 100px; width: 150px; padding: 12px 13px; }
-  .road-stop.stop-2 .road-stage-card { top: -8px; right: auto; left: -118px; }
-  .road-stop.stop-3 .road-stage-card, .road-stop.stop-5 .road-stage-card { top: -8px; right: auto; left: -160px; }
-  .road-stop.stop-4 .road-stage-card { top: -8px; right: auto; left: 103px; }
-  .road-stop.stop-6 .road-stage-card { top: -148px; right: auto; left: -133px; }
-  .road-stage-card h3 { font-size: 17px; }
-  .road-stage-card > p:last-child { font-size: 12px; }
   .journey-outcome { grid-template-columns: 42px 1fr; }
   .journey-outcome .arrow-link { grid-column: 2; justify-self: start; }
   .learning-flow { grid-template-columns: 1fr; }
@@ -324,6 +309,34 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
   .value-grid > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(0, 107, 11, .18); }
   .value-grid > div:nth-child(4) { border-top: 1px solid rgba(0, 107, 11, .18); }
   .course-image-frame.book-frame { height: 390px; }
+}
+
+@media (min-width: 621px) and (max-width: 900px) {
+  .roadmap { min-height: 960px; }
+  .road-stage-card { width: 180px; padding: 13px 14px; }
+  .road-stage-card h3 { font-size: 18px; }
+  .road-stage-card > p:last-child { display: none; }
+}
+
+@media (max-width: 620px) {
+  .roadmap { min-height: 1400px; }
+  .road-svg-desktop { display: none; }
+  .road-svg-mobile { display: block; }
+  .road-start { top: 16px; right: 16px; left: auto; }
+  .road-finish { right: 18px; bottom: 16px; }
+  .road-stop.stop-1 { top: 6%; left: 14%; }
+  .road-stop.stop-2 { top: 22.5%; left: 45%; }
+  .road-stop.stop-3 { top: 39%; left: 59%; }
+  .road-stop.stop-4 { top: 56%; left: 42%; }
+  .road-stop.stop-5 { top: 73%; left: 63%; }
+  .road-stop.stop-6 { top: 94%; left: 50%; }
+  .road-stage-card { top: -8px; right: auto; left: 100px; width: 120px; padding: 11px 12px; }
+  .road-stop.stop-2 .road-stage-card { top: -8px; right: auto; left: -118px; width: 116px; }
+  .road-stop.stop-3 .road-stage-card, .road-stop.stop-5 .road-stage-card { top: -8px; right: auto; left: -160px; }
+  .road-stop.stop-4 .road-stage-card { top: -8px; right: auto; left: 103px; }
+  .road-stop.stop-6 .road-stage-card { top: -78px; right: auto; left: 110px; }
+  .road-stage-card h3 { font-size: 16px; }
+  .road-stage-card > p:last-child { display: none; }
 }
 
 @media (max-width: 520px) {
