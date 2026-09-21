@@ -438,7 +438,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 }
 
 @media (min-width: 621px) and (max-width: 900px) {
-  .roadmap { min-height: 460px; }
+  .roadmap { width: 980px; min-height: 460px; }
   .road-stage-card { width: 142px; padding: 11px 12px; }
   .road-stage-card h3 { font-size: 16px; }
   .road-stage-card > p:last-child { display: none; }
