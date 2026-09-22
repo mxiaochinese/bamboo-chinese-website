@@ -33,13 +33,17 @@ jobs:
           cp -R dist _site
           python3 - <<'PY'
           from pathlib import Path
-          import re
+          import os, re
 
           base = "/bamboo-chinese-website"
+          revision = os.environ["GITHUB_SHA"][:8]
           for path in Path("_site").rglob("*"):
               if path.is_file() and path.suffix.lower() in {".html", ".css", ".js", ".json"}:
                   text = path.read_text(encoding="utf-8")
                   text = re.sub(r'(["\'`])(/)(?!/)', rf'\1{base}/', text)
+                  if path.suffix.lower() == ".html":
+                      text = re.sub(r'app\.js(?:\?v=[^"\']+)?', f'app.js?v={revision}', text)
+                      text = re.sub(r'redesign\.css(?:\?v=[^"\']+)?', f'redesign.css?v={revision}', text)
                   path.write_text(text, encoding="utf-8")
           PY
       - name: Upload website
