@@ -292,7 +292,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .finder-story { gap: 14px; }
 .finder-scene { min-height: 290px; border: 7px solid white; border-radius: 24px; }
 .finder-steps { gap: 10px; }
-.mini-step { min-height: 156px; padding: 16px; }
+.mini-step { min-height: 118px; padding: 15px; }
 .choice { background: #f8fbf4; font-size: 16px; }
 
 .teacher-section { padding: 62px 0; background: linear-gradient(145deg, var(--cream), #f2f8dd); }
