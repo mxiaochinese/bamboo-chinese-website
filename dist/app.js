@@ -109,6 +109,10 @@ function icon(name, size = 20) {
     location: "fa-location-dot",
     flag: "fa-flag-checkered",
     trophy: "fa-trophy",
+    phone: "fa-phone",
+    envelope: "fa-envelope",
+    video: "fa-video",
+    clock: "fa-clock",
   };
   return `<i aria-hidden="true" class="fa-solid ${names[name] || names.arrow}" style="font-size:${size}px"></i>`;
 }
@@ -366,7 +370,22 @@ function leadPage() {
 }
 
 function contactPage() {
-  return shell(`${pageHero("LIÊN HỆ", "Trao đổi cùng Bamboo", "Tư vấn điểm bắt đầu và lớp học phù hợp.", "聯")}<section class="section"><div class="container"><div class="cta-banner"><p class="eyebrow">BƯỚC TIẾP THEO</p><h2>Tìm lớp phù hợp cho con.</h2>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
+  const channels = [
+    { icon: "phone", label: "HOTLINE", value: "0877.271.760", href: "tel:0877271760" },
+    { icon: "envelope", label: "EMAIL", value: "info@mxiao.edu.vn", href: "mailto:info@mxiao.edu.vn" },
+    { icon: "location", label: "CƠ SỞ ĐỐNG ĐA", value: "A1 Ngõ 15, Phố Vĩnh Hồ, Đống Đa, Hà Nội" },
+    { icon: "location", label: "CƠ SỞ PHƯƠNG MAI", value: "Số 4, Ngách 19, Ngõ 167, Phố Phương Mai, Kim Liên, Hà Nội" },
+    { icon: "message", label: "MESSENGER", value: "Nhắn tin với MXiao", href: "https://m.me/mxiao.chinese" },
+    { icon: "video", label: "TIKTOK", value: "@mxiaochinese.official", href: "https://www.tiktok.com/@mxiaochinese.official" },
+  ];
+  const channelCards = channels.map((item) => {
+    const body = `<span class="contact-channel-icon">${icon(item.icon, 20)}</span><span><small>${item.label}</small><strong>${item.value}</strong></span>`;
+    return item.href ? `<a class="contact-channel-card" href="${item.href}"${item.href.startsWith("http") ? ' target="_blank" rel="noreferrer"' : ""}>${body}</a>` : `<div class="contact-channel-card">${body}</div>`;
+  }).join("");
+  const consultationForm = `<form class="form-card contact-consultation-form" data-lead-form novalidate><input type="hidden" name="brand" value="bamboo"><input type="hidden" name="formType" value="contact-consultation"><input type="hidden" name="sourcePage" value="${escapeHTML(currentPath())}"><input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><h3>Đăng ký tư vấn cùng Bamboo</h3><p>Để lại thông tin, Bamboo sẽ tư vấn khóa học phù hợp với nền tảng và mục tiêu của con.</p><p class="form-section-title">Thông tin liên hệ</p><div class="form-grid"><div class="field"><label for="contact-name">Họ và tên</label><input id="contact-name" name="parentName" autocomplete="name" required maxlength="80"></div><div class="field"><label for="contact-phone">Số điện thoại</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></div><div class="field full"><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" autocomplete="email" maxlength="120"></div></div><p class="form-section-title contact-learning-title">Nhu cầu học tập</p><div class="form-grid"><div class="field"><label for="contact-level">Trình độ hiện tại</label><input id="contact-level" name="currentLevel" maxlength="120"></div><div class="field"><label for="contact-time">Khung giờ mong muốn</label><input id="contact-time" name="preferredTime" maxlength="120"></div><div class="field full"><label for="contact-goal">Mục tiêu học tập</label><textarea id="contact-goal" name="learningGoal" maxlength="500"></textarea></div></div><div class="form-error" data-form-error role="alert"></div><div class="form-success" data-form-success role="status">Bamboo đã nhận thông tin và sẽ sớm liên hệ.</div><button class="button primary full" type="submit">Gửi đăng ký tư vấn</button></form>`;
+  return shell(`${pageHero("LIÊN HỆ", "Liên hệ", "Kết nối với Bamboo qua hotline, email, mạng xã hội hoặc form tư vấn.", "聯")}
+    <section class="section contact-main-section"><div class="container contact-main-grid"><div class="contact-channel-column"><div class="contact-channel-heading"><p class="eyebrow">KÊNH CHÍNH THỨC</p><h2>Liên hệ đúng nơi,<br>nhận hỗ trợ nhanh hơn</h2></div><div class="contact-channel-list">${channelCards}</div></div>${consultationForm}</div></section>
+    <section class="section contact-faq-section"><div class="container contact-faq-grid"><div><p class="eyebrow">GIẢI ĐÁP NHANH</p><h2>Những điều phụ huynh thường hỏi trước khi liên hệ</h2></div><div class="contact-faq-list"><details open><summary>Bamboo thường phản hồi đăng ký tư vấn trong bao lâu?</summary><p>Thông thường đội ngũ sẽ phản hồi trong khung giờ làm việc 9h - 21h. Với form gửi ngoài giờ, Bamboo sẽ liên hệ lại sớm trong phiên làm việc tiếp theo.</p></details><details><summary>Có thể nhắn Bamboo qua kênh nào ngoài form?</summary><p>Bạn có thể liên hệ qua hotline, email, Messenger hoặc Zalo chính thức của MXiao để được hỗ trợ nhanh hơn tùy nhu cầu.</p></details><details><summary>Nếu chưa biết rõ mục tiêu học thì có nên để lại thông tin không?</summary><p>Có. Bạn chỉ cần chia sẻ tình trạng hiện tại hoặc quỹ thời gian, đội ngũ tư vấn sẽ hỗ trợ định hình mục tiêu và gợi ý lộ trình phù hợp.</p></details></div></div></section>`);
 }
 
 function notFound() {
@@ -626,19 +645,25 @@ function bindInteractions() {
     submitButton.textContent = "Đang gửi thông tin...";
 
     const data = new FormData(form);
+    const formType = String(data.get("formType") || "course-interest");
+    const isContactConsultation = formType === "contact-consultation";
     const priorLearningValue = String(data.get("priorLearning") || "");
     const selectedLevel = priorLearningValue === "Rồi" ? String(data.get("previousLevel") || "") : "Không áp dụng";
-    const currentLevel = selectedLevel === "Khác" ? String(data.get("otherLevel") || "") : selectedLevel;
+    const courseLevel = selectedLevel === "Khác" ? String(data.get("otherLevel") || "") : selectedLevel;
+    const currentLevel = isContactConsultation ? String(data.get("currentLevel") || "Chưa xác định") : courseLevel;
     const familyNote = String(data.get("note") || "").trim();
+    const learningGoal = String(data.get("learningGoal") || "").trim();
+    const preferredTime = String(data.get("preferredTime") || data.get("learningMode") || "").trim();
     const scheduleClass = String(data.get("scheduleClass") || "").trim();
     const scheduleCourse = String(data.get("scheduleCourse") || "").trim();
     const detailNote = [
       `Thương hiệu: Bamboo Chinese`,
       scheduleClass ? `Mã lớp quan tâm: ${scheduleClass}` : "",
-      `Tuổi của con: ${String(data.get("childAge") || "")}`,
-      `Đã từng học tiếng Trung: ${priorLearningValue}`,
-      `Cấp độ gần nhất: ${currentLevel || "Không nhớ"}`,
-      `Hình thức mong muốn: ${String(data.get("learningMode") || "")}`,
+      data.get("childAge") ? `Tuổi của con: ${String(data.get("childAge"))}` : "",
+      priorLearningValue ? `Đã từng học tiếng Trung: ${priorLearningValue}` : "",
+      `Trình độ hiện tại: ${currentLevel || "Chưa xác định"}`,
+      preferredTime ? `Khung giờ hoặc hình thức mong muốn: ${preferredTime}` : "",
+      learningGoal ? `Mục tiêu học tập: ${learningGoal}` : "",
       familyNote ? `Nội dung cần trao đổi: ${familyNote}` : "",
     ].filter(Boolean).join("\n");
     const courseMatch = currentPath().match(/yct-(\d)/);
@@ -653,11 +678,11 @@ function bindInteractions() {
           email: String(data.get("email") || ""),
           age: String(data.get("childAge") || ""),
           currentLevel,
-          preferredTime: String(data.get("learningMode") || ""),
+          preferredTime,
           interestedCourse: scheduleCourse || (courseMatch ? `YCT${courseMatch[1]}` : "Tư vấn lộ trình YCT"),
           source: "bamboo-chinese",
           sourcePage: currentPath(),
-          sourceSection: "bamboo-course-finder",
+          sourceSection: isContactConsultation ? "bamboo-contact" : "bamboo-course-finder",
           landingPage: window.location.href,
           referrer: document.referrer,
           submittedAt: new Date().toISOString(),

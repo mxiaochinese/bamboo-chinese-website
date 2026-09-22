@@ -40,3 +40,39 @@ Intentional differences:
 ## Result
 
 Passed. No P0, P1, or P2 issues remain. The full-width Chinese parentheses retained in lesson titles are source-content typography and are non-blocking.
+
+---
+
+# Design QA — Bamboo Chinese contact page
+
+## Reference and implementation
+
+- Visual reference: https://mxiao.edu.vn/lien-he
+- Bamboo implementation: http://localhost:4173/lien-he/
+- Desktop review viewport: 1280 × 720 CSS px
+- Mobile review viewport: 390 × 844 CSS px
+- Review states: page top, channel cards, consultation form, expanded FAQ, mobile stacked layout
+
+## Visual comparison
+
+The Bamboo implementation follows the reference page's complete information architecture: contact hero, official contact channels, two-column desktop layout, consultation form, and three-question FAQ. On mobile the channel cards, form, and FAQ stack in the same reading order as the MXiao reference.
+
+Intentional differences:
+
+- Bamboo branding, green/orange palette, Gilroy typography, logo, and child-focused wording replace MXiao page branding.
+- MXiao's shared hotline, email, addresses, Messenger, and TikTok channels are preserved exactly because both websites use the same support operation.
+- The existing Bamboo lead endpoint is retained so the contact form follows the site's shared Bamboo/MXiao data flow.
+
+## Checks performed
+
+- Desktop and mobile layout compared against the reference.
+- All six official contact channels verified in the rendered page.
+- Required name and phone fields, optional email, learning-needs fields, and submit button verified.
+- FAQ expansion verified for multiple questions.
+- Mobile horizontal overflow: none at 390 px.
+- Contact links use telephone, email, Messenger, and TikTok destinations from the reference.
+- JavaScript syntax and whitespace checks passed.
+
+## Result
+
+Passed. No P0, P1, or P2 visual or interaction issues remain.
