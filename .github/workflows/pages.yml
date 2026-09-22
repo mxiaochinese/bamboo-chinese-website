@@ -39,7 +39,7 @@ jobs:
           for path in Path("_site").rglob("*"):
               if path.is_file() and path.suffix.lower() in {".html", ".css", ".js", ".json"}:
                   text = path.read_text(encoding="utf-8")
-                  text = re.sub(r'(["\'])(/)(?!/)', rf'\1{base}/', text)
+                  text = re.sub(r'(["\'`])(/)(?!/)', rf'\1{base}/', text)
                   path.write_text(text, encoding="utf-8")
           PY
       - name: Upload website
