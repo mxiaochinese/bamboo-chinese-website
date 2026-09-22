@@ -28,10 +28,24 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Prepare project-site paths
+        run: |
+          cp -R dist _site
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          base = "/bamboo-chinese-website"
+          for path in Path("_site").rglob("*"):
+              if path.is_file() and path.suffix.lower() in {".html", ".css", ".js", ".json"}:
+                  text = path.read_text(encoding="utf-8")
+                  text = re.sub(r'(["\'])(/)(?!/)', rf'\1{base}/', text)
+                  path.write_text(text, encoding="utf-8")
+          PY
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
