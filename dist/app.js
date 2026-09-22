@@ -1,8 +1,10 @@
 const COURSE_FILES = [1, 2, 3, 4, 5, 6].map((level) => `/data/yct-${level}.json`);
 const TEACHER_FILE = "/data/teachers.json";
+const SCHEDULE_CSV_URL = "https://docs.google.com/spreadsheets/d/1rj1Jhvbgsyn83L895BD8gFkDX5DpIJ4UBDhBtg7kXmo/gviz/tq?tqx=out:csv&sheet=Bamboo%20Chinese";
 const NAV_ITEMS = [
   { label: "Trang chủ", href: "/" },
   { label: "Khóa học", href: "/lo-trinh", children: [1, 2, 3, 4, 5, 6].map((level) => ({ label: `Khóa YCT${level}`, href: `/lo-trinh/yct-${level}` })) },
+  { label: "Lịch khai giảng", href: "/lich-khai-giang" },
   { label: "Phương pháp học", href: "/cach-bamboo-day" },
   { label: "Đội ngũ giáo viên", href: "/giao-vien" },
   { label: "Tiến bộ của con", href: "/tien-bo-cua-con" },
@@ -25,6 +27,7 @@ const courseBook = (level) => `/assets/books/YCT${level}.png`;
 let courses = [];
 let teachersData = [];
 let promotionTimer = null;
+let scheduleRefreshTimer = null;
 
 function promotionState(now = Date.now()) {
   let stored = null;
@@ -137,7 +140,7 @@ function footer() {
             <a class="brand" href="/" aria-label="Bamboo Chinese, về trang chủ"><img class="brand-logo" src="/assets/brand/logo-white-large.png" alt="Bamboo Chinese"></a>
             <p>Tiếng Trung dành riêng cho trẻ 6-12 tuổi, với một hành trình học rõ ràng từ YCT1 đến YCT6.</p>
           </div>
-          <div><p class="footer-title">Khóa học</p><div class="footer-links">${link("Lộ trình YCT1-YCT6", "/lo-trinh")}${link("Tìm khóa phù hợp", "/tim-lop-cho-con")}${link("Học phí", "/lo-trinh")}</div></div>
+          <div><p class="footer-title">Khóa học</p><div class="footer-links">${link("Lộ trình YCT1-YCT6", "/lo-trinh")}${link("Lịch khai giảng", "/lich-khai-giang")}${link("Học phí", "/lo-trinh")}</div></div>
           <div><p class="footer-title">Bamboo</p><div class="footer-links">${link("Phương pháp học", "/cach-bamboo-day")}${link("Đội ngũ giáo viên", "/giao-vien")}${link("Tiến bộ của con", "/tien-bo-cua-con")}</div></div>
           <div><p class="footer-title">Bắt đầu</p><div class="footer-links">${link("Tìm lớp cho con", "/tim-lop-cho-con")}${link("Liên hệ", "/lien-he")}${link("Về Bamboo", "/ve-bamboo")}</div></div>
         </div>
@@ -197,10 +200,84 @@ function priceCards() {
   return `<div class="price-grid">${courses.map((course, index) => `<article class="price-card ${index === 0 ? "featured" : ""}"><div class="price-sprout" aria-hidden="true"><span></span><span></span><span></span></div><div class="price-card-top"><h3>YCT${course.level}</h3>${index === 0 ? `<span class="tag">Bắt đầu</span>` : ""}</div><p>${course.duration.totalSessions} buổi · lớp trực tuyến tối đa ${course.classSize.maxOnline} bạn</p><div class="price-value promo-price${initialPromoState()}" ${promoAttributes(course)}><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><div class="price-discount" data-current-price>${formatPrice(discountedPrice(course))}</div><small class="promo-countdown" data-promo-countdown></small></div>${link("Xem khóa học", levelPath(course.level), "button secondary small")}</article>`).join("")}</div>`;
 }
 
+function schedulePage() {
+  return shell(`${pageHero("LỊCH KHAI GIẢNG", "Lịch lớp Bamboo Chinese", "Theo dõi các lớp YCT1–YCT6 sắp mở và chọn khung giờ phù hợp với lịch sinh hoạt của con.", "曆")}
+    <section class="section schedule-section"><div class="container"><div class="schedule-intro"><div><p class="eyebrow">LỚP SẮP MỞ</p><h2>Chọn lớp theo thời gian<br>phù hợp với gia đình.</h2></div><div class="schedule-intro-note"><span>${icon("calendar", 23)}</span><p>Lịch được cập nhật thường xuyên. Gia đình có thể lọc theo ngày khai giảng, cơ sở và giáo viên để tìm lớp thuận tiện hơn.</p></div></div>
+      <div class="schedule-board" data-schedule-board>
+        <div class="schedule-filters" aria-label="Bộ lọc lịch khai giảng">
+          <label><span>Từ ngày</span><div class="schedule-control">${icon("calendar", 15)}<input type="date" data-schedule-from></div></label>
+          <label><span>Đến ngày</span><div class="schedule-control">${icon("calendar", 15)}<input type="date" data-schedule-to></div></label>
+          <label><span>Cơ sở</span><div class="schedule-control">${icon("location", 15)}<select data-schedule-campus><option value="all">Tất cả cơ sở</option></select></div></label>
+          <label><span>Giáo viên</span><div class="schedule-control">${icon("graduation", 15)}<select data-schedule-teacher><option value="all">Tất cả giáo viên</option></select></div></label>
+          <button class="button primary schedule-reset" type="button" data-schedule-reset>${icon("arrow", 14)}<span>Đặt lại</span></button>
+        </div>
+        <div class="schedule-content" data-schedule-content><div class="schedule-loading"><span>${icon("calendar", 26)}</span><strong>Đang cập nhật lịch lớp…</strong></div></div>
+        <p class="schedule-count" data-schedule-count></p>
+      </div>
+    </div></section>
+    <section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">THÔNG TIN CẦN BIẾT</p><h2>Chọn lịch học cho con dễ dàng hơn.</h2></div><div class="schedule-faq">
+      <details open><summary>Khi nào Bamboo cập nhật lịch mới?</summary><p>Lịch được bổ sung khi lớp mới sẵn sàng nhận học viên. Những lớp đang hiển thị là các lựa chọn gia đình có thể đăng ký tư vấn.</p></details>
+      <details><summary>Nếu chưa có khung giờ phù hợp thì sao?</summary><p>Gia đình có thể gửi nhu cầu về ngày và giờ mong muốn. Bamboo sẽ tư vấn lớp gần nhất hoặc ghi nhận để sắp xếp lớp tiếp theo.</p></details>
+      <details><summary>Lớp trực tuyến và trực tiếp có gì khác nhau?</summary><p>Cả hai hình thức đều theo cùng lộ trình YCT. Sĩ số và cách tổ chức hoạt động được điều chỉnh để giáo viên theo sát từng bạn.</p></details>
+    </div></div></section>
+    <section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">CHƯA THẤY LỊCH PHÙ HỢP?</p><h2>Chia sẻ khung giờ gia đình mong muốn.</h2><p>Bamboo sẽ dựa trên độ tuổi, cấp độ và thời gian thuận tiện để tư vấn lớp phù hợp cho con.</p>${htmlLink(`${icon("message", 16)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button light")}</div></div></section>`);
+}
+
+function parseScheduleCsv(csv) {
+  const parsed = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let index = 0; index < csv.length; index += 1) {
+    const character = csv[index];
+    if (character === '"') {
+      if (quoted && csv[index + 1] === '"') { cell += '"'; index += 1; }
+      else quoted = !quoted;
+    } else if (character === "," && !quoted) { row.push(cell); cell = ""; }
+    else if ((character === "\n" || character === "\r") && !quoted) {
+      if (character === "\r" && csv[index + 1] === "\n") index += 1;
+      row.push(cell); parsed.push(row); row = []; cell = "";
+    } else cell += character;
+  }
+  if (cell || row.length) { row.push(cell); parsed.push(row); }
+  const headers = parsed.shift()?.map((value) => value.trim()) || [];
+  return parsed.map((values) => Object.fromEntries(headers.map((header, index) => [header, (values[index] || "").trim()])))
+    .filter((item) => item["Hiển thị"].toLowerCase() === "có" && item["Mã lớp"] && item["Ngày khai giảng"]);
+}
+
+function scheduleDateValue(value) {
+  const match = String(value || "").match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/);
+  if (!match) return Number.NaN;
+  return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1])).getTime();
+}
+
+function scheduleStatusClass(status) {
+  if (status === "Đã đủ") return "full";
+  if (status === "Gần đủ") return "nearly-full";
+  return "available";
+}
+
+function scheduleStatusLabel(status) {
+  if (status === "Đã đủ") return "Hết chỗ";
+  if (status === "Gần đủ") return "Gần hết chỗ";
+  return "Còn chỗ";
+}
+
+function scheduleTable(rows) {
+  if (!rows.length) return `<div class="schedule-empty"><span>${icon("calendar", 28)}</span><h3>Lịch mới đang được cập nhật</h3><p>Chưa có lớp phù hợp với lựa chọn hiện tại. Gia đình có thể đặt lại bộ lọc hoặc gửi khung giờ mong muốn để Bamboo tư vấn.</p>${link("Tìm lớp theo nhu cầu", "/tim-lop-cho-con", "button primary")}</div>`;
+  return `<div class="schedule-table-wrap"><table class="schedule-table"><thead><tr><th>Khóa học</th><th>Địa điểm</th><th>Mã lớp</th><th>Giáo viên</th><th>Lịch học</th><th>Ngày khai giảng</th><th>Trạng thái</th><th>Đăng ký</th></tr></thead><tbody>${rows.map((row) => {
+    const classCode = row["Mã lớp"];
+    const courseName = row["Khóa học"];
+    const href = `/tim-lop-cho-con?lop=${encodeURIComponent(classCode)}&khoa=${encodeURIComponent(courseName)}`;
+    return `<tr><td><strong>${escapeHTML(courseName)}</strong><span>${escapeHTML(row["Hình thức"])}</span></td><td><strong>${escapeHTML(row["Cơ sở"])}</strong></td><td><strong>${escapeHTML(classCode)}</strong></td><td>${escapeHTML(row["Giảng viên"])}</td><td><strong class="schedule-days">${escapeHTML(row["Ngày học"])}</strong><span>${escapeHTML(row["Giờ học"])}</span></td><td><strong>${escapeHTML(row["Ngày khai giảng"])}</strong></td><td><span class="schedule-status ${scheduleStatusClass(row["Trạng thái"])}">${scheduleStatusLabel(row["Trạng thái"])}</span></td><td>${link(row["Trạng thái"] === "Đã đủ" ? "Nhận lịch mới" : "Đăng ký", href, "schedule-register")}</td></tr>`;
+  }).join("")}</tbody></table></div>`;
+}
+
 function home() {
   return shell(`
     <section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="hero-badge">${icon("star", 14)} TIẾNG TRUNG CHO TRẺ 6-12 TUỔI</p><h1>Học là vui.<br><span>Vui là nhớ.</span></h1><p class="lede">Lộ trình YCT1–YCT6 giúp gia đình theo dõi nội dung học, còn con được phát triển đồng đều bốn kỹ năng qua từng cấp độ.</p><div class="hero-actions">${htmlLink(`${icon("message", 17)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button primary")}${htmlLink(`<span>Khám phá khóa học</span>${icon("arrow", 15)}`, "/lo-trinh", "button secondary")}</div><div class="hero-benefits"><div>${icon("users", 19)}<span><strong>Lớp nhỏ</strong>6-8 bạn</span></div><div>${icon("book", 19)}<span><strong>Giáo trình</strong>YCT chuẩn</span></div><div>${icon("chart", 19)}<span><strong>Rõ tiến độ</strong>Từng chặng</span></div><div>${icon("graduation", 19)}<span><strong>Giáo viên</strong>Hồ sơ rõ</span></div></div><p class="hero-note"><span></span>Chương trình được phát triển bởi MXiao Chinese</p></div><div class="hero-visual"><img src="/assets/brand/cover.jpg" alt="Học sinh Bamboo Chinese học cùng giáo trình YCT" loading="eager"><div class="hero-photo-card"><strong>${icon("book", 17)} YCT1 → YCT6</strong><span>Một lộ trình liền mạch cho trẻ</span></div></div></div></section>
     <section class="section course-section"><div class="container"><div class="split-heading"><div><p class="eyebrow">LỘ TRÌNH PHÁT TRIỂN YCT1–YCT6</p><h2>Con lớn lên cùng<br>từng chặng tiếng Trung.</h2></div><p>Sáu cấp độ nối tiếp nhau, đưa con từ những âm thanh đầu tiên đến khả năng giao tiếp tự tin và nền tảng tiếng Trung vững chắc.</p></div>${developmentJourney()}</div></section>
+    <section class="schedule-home"><div class="container"><div class="schedule-home-card"><span class="schedule-home-icon">${icon("calendar", 28)}</span><div><p class="eyebrow">LỊCH KHAI GIẢNG</p><h2>Chọn lớp theo lịch của gia đình.</h2><p>Xem các lớp YCT sắp mở, khung giờ học, giáo viên và tình trạng chỗ còn lại.</p></div>${htmlLink(`<span>Xem lịch khai giảng</span>${icon("arrow", 14)}`, "/lich-khai-giang", "button light")}</div></div></section>
     <section class="method-section"><div class="container"><div class="split-heading light"><div><p class="eyebrow">CÁCH BAMBOO DẠY</p><h2>Ba bước giúp con học chắc và tiến bộ đều.</h2></div>${link("Xem phương pháp học", "/cach-bamboo-day", "text-link-light")}</div>${rhythmCards()}</div></section>
     <section class="section finder-section"><div class="container"><div class="section-heading"><p class="eyebrow">TÌM ĐIỂM BẮT ĐẦU</p><h2>Con nên bắt đầu ở YCT nào?</h2><p class="lede">Cho Bamboo biết con đã từng học tiếng Trung chưa và độ tuổi hiện tại. Từ đó, gia đình có thể tham khảo cấp độ phù hợp trước khi chọn lớp.</p></div>${finder()}</div></section>
     <section class="teacher-section"><div class="container"><div class="split-heading"><div><p class="eyebrow">ĐỘI NGŨ GIÁO VIÊN</p><h2>Giáo viên tận tâm,<br>chuyên môn vững vàng.</h2></div><p>Phụ huynh có thể tìm hiểu kinh nghiệm, chứng chỉ và thế mạnh của từng giáo viên trước khi chọn lớp cho con.</p></div>${teacherShowcase(6)}<div class="section-action">${htmlLink(`<span>Xem toàn bộ giáo viên</span>${icon("arrow", 14)}`, "/giao-vien", "button secondary")}</div></div></section>
@@ -236,7 +313,7 @@ function coursePage(course) {
     "Phụ huynh dễ theo dõi nội dung con đã học",
   ];
   return shell(`<div class="course-detail level-${course.level}">
-    <section class="course-detail-hero"><div class="container"><div class="breadcrumb">${link("Trang chủ", "/")}<span>›</span>${link("Khóa học - Lộ trình", "/lo-trinh")}<span>›</span><span>YCT${course.level}</span></div><div class="course-detail-hero-grid"><div class="course-detail-hero-copy"><p class="eyebrow">LỘ TRÌNH TIẾNG TRUNG TRẺ EM</p><h1>Khóa học YCT${course.level}</h1><p class="lede">${course.duration.totalSessions} buổi giúp trẻ phát triển đồng đều Nghe - Nói - Đọc - Viết bằng những chủ đề gần gũi, phù hợp với độ tuổi.</p><div class="course-actions">${htmlLink(`${icon("message", 16)}<span>Tìm lớp cho con</span>`, "/tim-lop-cho-con", "button primary")}${link("Xem toàn bộ lộ trình", "/lo-trinh", "button secondary")}</div></div><div class="course-book-visual"><span class="book-standard">GIÁO TRÌNH CHUẨN</span><span class="book-level">YCT${course.level}</span><img src="${courseBook(course.level)}" alt="Giáo trình YCT${course.level}" loading="eager"></div></div></div></section>
+    <section class="course-detail-hero"><div class="container"><div class="breadcrumb">${link("Trang chủ", "/")}<span>›</span>${link("Khóa học - Lộ trình", "/lo-trinh")}<span>›</span><span>YCT${course.level}</span></div><div class="course-detail-hero-grid"><div class="course-detail-hero-copy"><p class="eyebrow">LỘ TRÌNH TIẾNG TRUNG TRẺ EM</p><h1>Khóa học YCT${course.level}</h1><p class="lede">${course.duration.totalSessions} buổi giúp trẻ phát triển đồng đều Nghe - Nói - Đọc - Viết bằng những chủ đề gần gũi, phù hợp với độ tuổi.</p><div class="course-actions">${htmlLink(`${icon("calendar", 16)}<span>Xem lịch khai giảng</span>`, "/lich-khai-giang", "button primary")}${link("Tìm lớp cho con", "/tim-lop-cho-con", "button secondary")}</div></div><div class="course-book-visual"><span class="book-standard">GIÁO TRÌNH CHUẨN</span><span class="book-level">YCT${course.level}</span><img src="${courseBook(course.level)}" alt="Giáo trình YCT${course.level}" loading="eager"></div></div></div></section>
     <section class="course-overview"><div class="container"><div class="course-section-title"><p class="eyebrow">TỔNG QUAN</p><h2>Thông tin khóa học</h2><p>Các thông tin phụ huynh cần xem trước khi chọn lớp: đầu vào, đầu ra, số buổi, sĩ số, học phí và nội dung từng buổi.</p></div><div class="course-detail-layout"><div class="course-main-column">
       <article class="course-panel course-info-panel"><h3>Đầu vào, đầu ra và nhịp học</h3><div class="course-stat-grid"><div><span class="course-stat-icon">${icon("flag", 18)}</span><small>ĐẦU VÀO</small><strong>${escapeHTML(entry)}</strong></div><div><span class="course-stat-icon">${icon("trophy", 18)}</span><small>ĐẦU RA</small><strong>${escapeHTML(outcome)}</strong></div><div><span class="course-stat-icon">${icon("calendar", 18)}</span><small>SỐ BUỔI</small><strong>${course.duration.totalSessions} buổi</strong></div><div><span class="course-stat-icon">${icon("users", 18)}</span><small>SĨ SỐ</small><strong>${course.classSize.maxOnline}-${course.classSize.maxOffline} bạn</strong></div></div><div class="course-skills"><p>BỐN KỸ NĂNG TRONG KHÓA HỌC</p><div><span>${icon("headphones", 14)} Nghe</span><span>${icon("message", 14)} Nói</span><span>${icon("book", 14)} Đọc</span><span>${icon("pen", 14)} Viết</span></div></div></article>
       <article class="course-price-card course-price-mobile promo-price${initialPromoState()}" ${promoAttributes(course)}><p data-promo-label>HỌC PHÍ ƯU ĐÃI</p><del data-original-price>${formatPrice(course.pricing.listPrice)}</del><strong data-current-price>${formatPrice(discountedPrice(course))}</strong>${promoClock("course-promo-clock")}${htmlLink(`<span>Nhận tư vấn khóa học</span>${icon("arrow", 14)}`, "/tim-lop-cho-con", "button light full")}</article>
@@ -247,7 +324,7 @@ function coursePage(course) {
     <section class="section course-faq-section"><div class="container"><div class="course-section-title"><p class="eyebrow">GIẢI ĐÁP</p><h2>Câu hỏi thường gặp về YCT${course.level}</h2></div><div class="course-faq-list"><details open><summary>Khóa YCT${course.level} phù hợp với ai?</summary><p>Phù hợp với trẻ 6-12 tuổi có đầu vào: ${escapeHTML(entry.toLowerCase())}.</p></details><details><summary>Khóa học có bao nhiêu buổi?</summary><p>Khóa YCT${course.level} gồm ${course.duration.totalSessions} buổi, mỗi buổi ${course.duration.minutesPerSession || 90} phút.</p></details><details><summary>Sĩ số lớp được tổ chức như thế nào?</summary><p>Lớp online tối đa ${course.classSize.maxOnline} bạn; lớp trực tiếp tối đa ${course.classSize.maxOffline} bạn để giáo viên có thời gian tương tác với từng trẻ.</p></details><details><summary>Con sẽ học bằng tài liệu gì?</summary><p>Trẻ học theo giáo trình chuẩn YCT${course.level}, đi cùng học cụ và tài liệu ôn tập phù hợp với chương trình.</p></details></div></div></section>
     <section class="course-teachers"><div class="container"><div class="split-heading"><div><p class="eyebrow">GIÁO VIÊN</p><h2>Đội ngũ đồng hành cùng con.</h2></div>${link("Xem toàn bộ giáo viên", "/giao-vien", "button secondary")}</div>${teacherShowcase(3)}</div></section>
     <section class="section course-lead"><div class="container"><div class="course-section-title"><p class="eyebrow">ĐĂNG KÝ TƯ VẤN</p><h2>Nhận tư vấn về YCT${course.level}</h2><p>Chia sẻ điểm bắt đầu của con để Bamboo hỗ trợ gia đình chọn lớp phù hợp.</p></div><div class="course-lead-grid"><div class="course-lead-copy"><span>${icon("leaf", 26)}</span><h3>Một cuộc trao đổi ngắn để chọn đúng điểm bắt đầu.</h3><p>Bamboo sẽ dựa trên độ tuổi, tình trạng học hiện tại và hình thức học mong muốn của gia đình.</p><div class="course-nav">${previous ? `<a class="course-nav-card" href="${levelPath(previous.level)}"><small>Khóa trước</small><strong>← YCT${previous.level}</strong></a>` : `<a class="course-nav-card" href="/lo-trinh"><small>Điểm bắt đầu</small><strong>Tổng quan lộ trình</strong></a>`}${next ? `<a class="course-nav-card next" href="${levelPath(next.level)}"><small>Khóa tiếp theo</small><strong>YCT${next.level} →</strong></a>` : `<a class="course-nav-card next" href="/lo-trinh"><small>Hoàn thành</small><strong>Xem toàn bộ lộ trình</strong></a>`}</div></div>${contactForm()}</div></div></section>
-    <div class="course-floating-actions" aria-label="Liên hệ nhanh">${htmlLink(`${icon("calendar", 16)}<span>TÌM LỚP</span>`, "/tim-lop-cho-con")}${htmlLink(`${icon("message", 16)}<span>TƯ VẤN</span>`, "/lien-he")}</div>
+    <div class="course-floating-actions" aria-label="Liên hệ nhanh">${htmlLink(`${icon("calendar", 16)}<span>LỊCH LỚP</span>`, "/lich-khai-giang")}${htmlLink(`${icon("message", 16)}<span>TƯ VẤN</span>`, "/lien-he")}</div>
   </div>`);
 }
 
@@ -277,7 +354,11 @@ function teachers(path) {
 }
 
 function contactForm() {
-  return `<form class="form-card" data-lead-form novalidate><input type="hidden" name="brand" value="bamboo"><input type="hidden" name="formType" value="course-interest"><input type="hidden" name="sourcePage" value="${escapeHTML(currentPath())}"><input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="form-section-title">Thông tin về con</p><div class="form-grid"><div class="field"><label for="child-age">Tuổi của con</label><select id="child-age" name="childAge" required><option value="">Chọn độ tuổi</option><option>6-7 tuổi</option><option>8-9 tuổi</option><option>10-12 tuổi</option></select></div><div class="field"><label for="prior-learning">Con đã từng học tiếng Trung?</label><select id="prior-learning" name="priorLearning" data-prior-learning required><option value="">Chọn một phương án</option><option value="Rồi">Rồi</option><option value="Chưa">Chưa</option></select></div><div class="field full" data-level-field hidden><label for="previous-level">Cấp độ gần nhất nếu con đã từng học</label><select id="previous-level" name="previousLevel" data-previous-level><option value="">Chọn cấp độ gần nhất</option>${courses.map((course) => `<option>YCT${course.level}</option>`).join("")}<option value="Không nhớ">Không nhớ</option><option value="Khác">Khác</option></select><small>Nếu không nhớ chính xác, gia đình có thể chọn “Không nhớ”.</small></div><div class="field full" data-other-level-field hidden><label for="other-level">Cấp độ hoặc chương trình con đã học</label><input id="other-level" name="otherLevel" data-other-level maxlength="200" placeholder="Ví dụ: HSK 1, giáo trình khác hoặc đã học tại trung tâm..."><small>Ghi theo thông tin gia đình nhớ được, không cần thật chính xác.</small></div><div class="field full"><label for="learning-mode">Hình thức học mong muốn</label><select id="learning-mode" name="learningMode" required><option value="">Chọn hình thức</option><option>Trực tuyến</option><option>Trực tiếp</option><option>Chưa quyết định</option></select></div></div><hr class="form-divider"><p class="form-section-title">Thông tin phụ huynh</p><div class="form-grid"><div class="field"><label for="parent-name">Tên phụ huynh</label><input id="parent-name" name="parentName" autocomplete="name" required maxlength="80"></div><div class="field"><label for="parent-phone">Số điện thoại</label><input id="parent-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></div><div class="field full"><label for="parent-email">Email <span class="muted">(tùy chọn)</span></label><input id="parent-email" name="email" type="email" autocomplete="email" maxlength="120"></div><div class="field full"><label for="parent-note">Điều gia đình muốn trao đổi <span class="muted">(tùy chọn)</span></label><textarea id="parent-note" name="note" maxlength="300" placeholder="Ví dụ: gia đình muốn được tư vấn điểm bắt đầu"></textarea></div></div><div class="form-error" data-form-error role="alert"></div><div class="form-success" data-form-success role="status">Bamboo đã nhận thông tin. Đội ngũ tư vấn sẽ sớm liên hệ với gia đình.</div><button class="button primary full" type="submit">Gửi thông tin cho Bamboo</button></form>`;
+  const query = new URLSearchParams(window.location.search);
+  const scheduleClass = query.get("lop") || "";
+  const scheduleCourse = query.get("khoa") || "";
+  const interestNotice = scheduleClass ? `<div class="form-interest">${icon("calendar", 15)}<span>Lớp gia đình đang quan tâm: <strong>${escapeHTML(scheduleClass)}</strong>${scheduleCourse ? ` · ${escapeHTML(scheduleCourse)}` : ""}</span></div>` : "";
+  return `<form class="form-card" data-lead-form novalidate><input type="hidden" name="brand" value="bamboo"><input type="hidden" name="formType" value="course-interest"><input type="hidden" name="sourcePage" value="${escapeHTML(currentPath())}"><input type="hidden" name="scheduleClass" value="${escapeHTML(scheduleClass)}"><input type="hidden" name="scheduleCourse" value="${escapeHTML(scheduleCourse)}"><input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">${interestNotice}<p class="form-section-title">Thông tin về con</p><div class="form-grid"><div class="field"><label for="child-age">Tuổi của con</label><select id="child-age" name="childAge" required><option value="">Chọn độ tuổi</option><option>6-7 tuổi</option><option>8-9 tuổi</option><option>10-12 tuổi</option></select></div><div class="field"><label for="prior-learning">Con đã từng học tiếng Trung?</label><select id="prior-learning" name="priorLearning" data-prior-learning required><option value="">Chọn một phương án</option><option value="Rồi">Rồi</option><option value="Chưa">Chưa</option></select></div><div class="field full" data-level-field hidden><label for="previous-level">Cấp độ gần nhất nếu con đã từng học</label><select id="previous-level" name="previousLevel" data-previous-level><option value="">Chọn cấp độ gần nhất</option>${courses.map((course) => `<option>YCT${course.level}</option>`).join("")}<option value="Không nhớ">Không nhớ</option><option value="Khác">Khác</option></select><small>Nếu không nhớ chính xác, gia đình có thể chọn “Không nhớ”.</small></div><div class="field full" data-other-level-field hidden><label for="other-level">Cấp độ hoặc chương trình con đã học</label><input id="other-level" name="otherLevel" data-other-level maxlength="200" placeholder="Ví dụ: HSK 1, giáo trình khác hoặc đã học tại trung tâm..."><small>Ghi theo thông tin gia đình nhớ được, không cần thật chính xác.</small></div><div class="field full"><label for="learning-mode">Hình thức học mong muốn</label><select id="learning-mode" name="learningMode" required><option value="">Chọn hình thức</option><option>Trực tuyến</option><option>Trực tiếp</option><option>Chưa quyết định</option></select></div></div><hr class="form-divider"><p class="form-section-title">Thông tin phụ huynh</p><div class="form-grid"><div class="field"><label for="parent-name">Tên phụ huynh</label><input id="parent-name" name="parentName" autocomplete="name" required maxlength="80"></div><div class="field"><label for="parent-phone">Số điện thoại</label><input id="parent-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></div><div class="field full"><label for="parent-email">Email <span class="muted">(tùy chọn)</span></label><input id="parent-email" name="email" type="email" autocomplete="email" maxlength="120"></div><div class="field full"><label for="parent-note">Điều gia đình muốn trao đổi <span class="muted">(tùy chọn)</span></label><textarea id="parent-note" name="note" maxlength="300" placeholder="Ví dụ: gia đình muốn được tư vấn điểm bắt đầu"></textarea></div></div><div class="form-error" data-form-error role="alert"></div><div class="form-success" data-form-success role="status">Bamboo đã nhận thông tin. Đội ngũ tư vấn sẽ sớm liên hệ với gia đình.</div><button class="button primary full" type="submit">Gửi thông tin cho Bamboo</button></form>`;
 }
 
 function leadPage() {
@@ -306,6 +387,7 @@ function renderPage() {
   if (path === "/") { content = home(); setMeta("Học từng bước. Tiến bộ từng ngày.", "Bamboo Chinese giúp phụ huynh hiểu lộ trình tiếng Trung cho trẻ 6-12 tuổi."); }
   else if (path === "/lo-trinh") { content = learningPath(); setMeta("Lộ trình YCT1-YCT6", "Khám phá lộ trình học tiếng Trung YCT1-YCT6 tại Bamboo Chinese."); }
   else if (/^\/lo-trinh\/yct-[1-6]$/.test(path)) { const level = Number(path.match(/yct-(\d)/)[1]); const course = courses.find((item) => item.level === level); content = course ? coursePage(course) : notFound(); setMeta(course ? `YCT${level}` : "Không tìm thấy trang", "Thông tin lộ trình Bamboo Chinese."); }
+  else if (path === "/lich-khai-giang") { content = schedulePage(); setMeta("Lịch khai giảng", "Xem lịch các lớp YCT1-YCT6 sắp khai giảng tại Bamboo Chinese."); }
   else if (path === "/cach-bamboo-day") { content = editorialPage("teach"); setMeta("Cách Bamboo dạy", "Tìm hiểu cách Bamboo tổ chức một buổi học và nhịp chương trình."); }
   else if (path === "/tien-bo-cua-con") { content = editorialPage("progress"); setMeta("Tiến bộ của con", "Cách Bamboo ghi nhận tiến bộ qua các mốc học, ôn tập và đánh giá."); }
   else if (path === "/ve-bamboo") { content = editorialPage("about"); setMeta("Về Bamboo", "Bamboo Chinese được phát triển bởi MXiao Chinese cho trẻ 6-12 tuổi."); }
@@ -426,6 +508,69 @@ function bindPromotion() {
   if (promotionState().active) promotionTimer = window.setInterval(updatePromotionUI, 1000);
 }
 
+function bindScheduleBoard() {
+  if (scheduleRefreshTimer) {
+    clearInterval(scheduleRefreshTimer);
+    scheduleRefreshTimer = null;
+  }
+  const root = document.querySelector("[data-schedule-board]");
+  if (!root) return;
+  const content = root.querySelector("[data-schedule-content]");
+  const count = root.querySelector("[data-schedule-count]");
+  const fromInput = root.querySelector("[data-schedule-from]");
+  const toInput = root.querySelector("[data-schedule-to]");
+  const campusSelect = root.querySelector("[data-schedule-campus]");
+  const teacherSelect = root.querySelector("[data-schedule-teacher]");
+  let scheduleRows = [];
+
+  const render = () => {
+    const from = fromInput.value ? new Date(`${fromInput.value}T00:00:00`).getTime() : Number.NaN;
+    const to = toInput.value ? new Date(`${toInput.value}T23:59:59`).getTime() : Number.NaN;
+    const filtered = scheduleRows.filter((row) => {
+      const date = scheduleDateValue(row["Ngày khai giảng"]);
+      if (campusSelect.value !== "all" && row["Cơ sở"] !== campusSelect.value) return false;
+      if (teacherSelect.value !== "all" && row["Giảng viên"] !== teacherSelect.value) return false;
+      if (!Number.isNaN(from) && !Number.isNaN(date) && date < from) return false;
+      if (!Number.isNaN(to) && !Number.isNaN(date) && date > to) return false;
+      return true;
+    });
+    content.innerHTML = scheduleTable(filtered);
+    count.textContent = filtered.length ? `Đang hiển thị ${filtered.length} lớp phù hợp.` : "";
+  };
+
+  const fillOptions = (select, values) => {
+    const selected = select.value;
+    const initial = select.querySelector("option").outerHTML;
+    select.innerHTML = initial + values.map((value) => `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`).join("");
+    if ([...select.options].some((option) => option.value === selected)) select.value = selected;
+  };
+
+  const load = async () => {
+    try {
+      const response = await fetch(`${SCHEDULE_CSV_URL}&_=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error("schedule-unavailable");
+      scheduleRows = parseScheduleCsv(await response.text());
+      fillOptions(campusSelect, [...new Set(scheduleRows.map((row) => row["Cơ sở"]).filter(Boolean))].sort());
+      fillOptions(teacherSelect, [...new Set(scheduleRows.map((row) => row["Giảng viên"]).filter(Boolean))].sort());
+      render();
+    } catch (_) {
+      content.innerHTML = `<div class="schedule-empty"><span>${icon("calendar", 28)}</span><h3>Chưa thể tải lịch lớp</h3><p>Gia đình có thể gửi nhu cầu để Bamboo tư vấn khung giờ phù hợp.</p>${link("Tìm lớp theo nhu cầu", "/tim-lop-cho-con", "button primary")}</div>`;
+      count.textContent = "";
+    }
+  };
+
+  [fromInput, toInput, campusSelect, teacherSelect].forEach((control) => control.addEventListener("change", render));
+  root.querySelector("[data-schedule-reset]")?.addEventListener("click", () => {
+    fromInput.value = "";
+    toInput.value = "";
+    campusSelect.value = "all";
+    teacherSelect.value = "all";
+    render();
+  });
+  load();
+  scheduleRefreshTimer = window.setInterval(load, 60_000);
+}
+
 function bindInteractions() {
   const menuToggle = document.querySelector("[data-menu-toggle]");
   menuToggle?.addEventListener("click", () => {
@@ -436,6 +581,7 @@ function bindInteractions() {
   });
   document.querySelectorAll(".mobile-nav a").forEach((item) => item.addEventListener("click", () => document.body.classList.remove("menu-open")));
   bindPromotion();
+  bindScheduleBoard();
   document.querySelectorAll("[data-finder]").forEach(renderFinder);
   const form = document.querySelector("[data-lead-form]");
   const priorLearning = form?.querySelector("[data-prior-learning]");
@@ -484,8 +630,11 @@ function bindInteractions() {
     const selectedLevel = priorLearningValue === "Rồi" ? String(data.get("previousLevel") || "") : "Không áp dụng";
     const currentLevel = selectedLevel === "Khác" ? String(data.get("otherLevel") || "") : selectedLevel;
     const familyNote = String(data.get("note") || "").trim();
+    const scheduleClass = String(data.get("scheduleClass") || "").trim();
+    const scheduleCourse = String(data.get("scheduleCourse") || "").trim();
     const detailNote = [
       `Thương hiệu: Bamboo Chinese`,
+      scheduleClass ? `Mã lớp quan tâm: ${scheduleClass}` : "",
       `Tuổi của con: ${String(data.get("childAge") || "")}`,
       `Đã từng học tiếng Trung: ${priorLearningValue}`,
       `Cấp độ gần nhất: ${currentLevel || "Không nhớ"}`,
@@ -505,7 +654,7 @@ function bindInteractions() {
           age: String(data.get("childAge") || ""),
           currentLevel,
           preferredTime: String(data.get("learningMode") || ""),
-          interestedCourse: courseMatch ? `YCT${courseMatch[1]}` : "Tư vấn lộ trình YCT",
+          interestedCourse: scheduleCourse || (courseMatch ? `YCT${courseMatch[1]}` : "Tư vấn lộ trình YCT"),
           source: "bamboo-chinese",
           sourcePage: currentPath(),
           sourceSection: "bamboo-course-finder",
@@ -547,7 +696,7 @@ document.addEventListener("click", (event) => {
   const destination = new URL(anchor.href);
   if (destination.pathname.startsWith("/assets/") || destination.pathname.startsWith("/data/")) return;
   event.preventDefault();
-  window.history.pushState({}, "", destination.pathname);
+  window.history.pushState({}, "", destination.pathname + destination.search);
   renderPage();
 });
 
