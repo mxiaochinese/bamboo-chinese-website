@@ -67,6 +67,20 @@ function floatingPromotion() {
   return `<a class="floating-promotion" href="/lo-trinh" data-floating-promotion aria-label="Xem các khóa học đang có ưu đãi"><span class="floating-promotion-icon">${icon("star", 16)}</span><span class="floating-promotion-copy"><small>ƯU ĐÃI HỌC PHÍ</small><strong>Xem các khóa học</strong></span>${promoClock("floating-promo-clock")}<span class="floating-promotion-arrow">${icon("arrow", 13)}</span></a>`;
 }
 
+function floatingContactRail() {
+  return `<aside class="floating-contact-rail" aria-label="Liên hệ nhanh với Bamboo">
+    <div class="floating-contact-primary">
+      <a class="floating-contact-tab schedule" href="/lich-khai-giang">${icon("calendar", 16)}<span>Lịch khai giảng</span></a>
+      <a class="floating-contact-tab consult" href="/tim-lop-cho-con">${icon("message", 16)}<span>Tư vấn ngay</span></a>
+    </div>
+    <div class="floating-contact-channels">
+      <a class="floating-contact-channel messenger" href="https://m.me/mxiao.chinese" target="_blank" rel="noopener noreferrer" aria-label="Nhắn tin qua Messenger"><i class="fa-brands fa-facebook-messenger" aria-hidden="true"></i><span>Messenger</span></a>
+      <a class="floating-contact-channel zalo" href="https://zalo.me/0877271760" target="_blank" rel="noopener noreferrer" aria-label="Nhắn tin qua Zalo"><strong aria-hidden="true">Zalo</strong><span>Zalo</span></a>
+      <a class="floating-contact-channel phone" href="tel:0877271760" aria-label="Gọi Bamboo qua số 0877 271 760">${icon("phone", 17)}<span>Hotline</span></a>
+    </div>
+  </aside>`;
+}
+
 function promoAttributes(course) {
   return `data-list-price="${course.pricing.listPrice}" data-sale-price="${discountedPrice(course)}"`;
 }
@@ -154,7 +168,7 @@ function footer() {
 }
 
 function shell(content) {
-  return `${header()}<main id="main-content">${content}</main>${floatingPromotion()}${footer()}`;
+  return `${header()}<main id="main-content">${content}</main>${floatingContactRail()}${floatingPromotion()}${footer()}`;
 }
 
 function pageHero(eyebrow, title, description, symbol = "竹") {
@@ -328,7 +342,6 @@ function coursePage(course) {
     <section class="section course-faq-section"><div class="container"><div class="course-section-title"><p class="eyebrow">GIẢI ĐÁP</p><h2>Câu hỏi thường gặp về YCT${course.level}</h2></div><div class="course-faq-list"><details open><summary>Khóa YCT${course.level} phù hợp với ai?</summary><p>Khóa học phù hợp với trẻ 6–12 tuổi và ${escapeHTML(entry.toLowerCase())}.</p></details><details><summary>Khóa học có bao nhiêu buổi?</summary><p>Khóa YCT${course.level} gồm ${course.duration.totalSessions} buổi, mỗi buổi ${course.duration.minutesPerSession || 90} phút.</p></details><details><summary>Sĩ số lớp được tổ chức như thế nào?</summary><p>Lớp trực tuyến tối đa ${course.classSize.maxOnline} bạn; lớp trực tiếp tối đa ${course.classSize.maxOffline} bạn để giáo viên có thời gian tương tác với từng trẻ.</p></details><details><summary>Con sẽ học bằng tài liệu gì?</summary><p>Trẻ học theo giáo trình chuẩn YCT${course.level}, cùng học cụ và tài liệu ôn tập phù hợp với chương trình.</p></details></div></div></section>
     <section class="course-teachers"><div class="container"><div class="split-heading"><div><p class="eyebrow">GIÁO VIÊN</p><h2>Đội ngũ đồng hành cùng con.</h2></div>${link("Xem toàn bộ giáo viên", "/giao-vien", "button secondary")}</div>${teacherShowcase(3)}</div></section>
     <section class="section course-lead"><div class="container"><div class="course-section-title"><p class="eyebrow">ĐĂNG KÝ TƯ VẤN</p><h2>Nhận tư vấn về YCT${course.level}</h2></div><div class="course-lead-grid"><div class="course-lead-copy"><span>${icon("leaf", 26)}</span><h3>Chọn đúng điểm bắt đầu.</h3><p>Theo độ tuổi, nền tảng và hình thức học.</p><div class="course-nav">${previous ? `<a class="course-nav-card" href="${levelPath(previous.level)}"><small>Khóa trước</small><strong>← YCT${previous.level}</strong></a>` : `<a class="course-nav-card" href="/lo-trinh"><small>Điểm bắt đầu</small><strong>Tổng quan lộ trình</strong></a>`}${next ? `<a class="course-nav-card next" href="${levelPath(next.level)}"><small>Khóa tiếp theo</small><strong>YCT${next.level} →</strong></a>` : `<a class="course-nav-card next" href="/lo-trinh"><small>Hoàn thành</small><strong>Xem toàn bộ lộ trình</strong></a>`}</div></div>${contactForm()}</div></div></section>
-    <div class="course-floating-actions" aria-label="Liên hệ nhanh">${htmlLink(`${icon("calendar", 16)}<span>LỊCH LỚP</span>`, "/lich-khai-giang")}${htmlLink(`${icon("message", 16)}<span>TƯ VẤN</span>`, "/lien-he")}</div>
   </div>`);
 }
 

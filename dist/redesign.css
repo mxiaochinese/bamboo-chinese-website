@@ -132,6 +132,22 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .floating-promo-clock .promo-clock-unit small { margin-top: 3px; font-size: 7px; }
 .floating-promotion-arrow { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; background: white; color: var(--green-dark); }
 
+/* Persistent contact rail, adapted from MXiao for Bamboo's schedule and parent consultation flow. */
+.floating-contact-rail { position: fixed; top: 34%; right: 0; z-index: 44; display: grid; gap: 10px; justify-items: end; }
+.floating-contact-primary, .floating-contact-channels { display: grid; gap: 7px; justify-items: end; }
+.floating-contact-tab { display: grid; width: 54px; min-height: 116px; place-items: center; gap: 8px; padding: 11px 7px; border-radius: 19px 0 0 19px; color: white; box-shadow: 0 12px 30px rgba(10, 65, 31, .2); transition: width .2s ease, transform .2s ease, box-shadow .2s ease; }
+.floating-contact-tab.schedule { background: linear-gradient(180deg, #08732c, #075522); }
+.floating-contact-tab.consult { background: linear-gradient(180deg, #18aeb8, #147c90); }
+.floating-contact-tab span { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-orientation: mixed; text-transform: uppercase; writing-mode: vertical-rl; }
+.floating-contact-tab:hover { width: 59px; color: white; transform: translateX(-2px); box-shadow: 0 16px 34px rgba(10, 65, 31, .27); }
+.floating-contact-channel { position: relative; display: grid; width: 48px; height: 48px; place-items: center; border: 1px solid rgba(7, 80, 35, .1); border-radius: 16px 0 0 16px; background: white; box-shadow: 0 9px 25px rgba(16, 66, 34, .16); transition: width .2s ease, transform .2s ease; }
+.floating-contact-channel > i { color: #1689ef; font-size: 22px; }
+.floating-contact-channel.zalo strong { display: grid; width: 31px; height: 31px; place-items: center; border: 2px solid #1877f2; border-radius: 50%; color: #1877f2; font-size: 10px; font-weight: 800; }
+.floating-contact-channel.phone i { color: var(--orange-dark); }
+.floating-contact-channel > span { position: absolute; right: calc(100% + 8px); visibility: hidden; padding: 7px 9px; border-radius: 9px; background: var(--green-deep); color: white; font-size: 11px; font-weight: 800; opacity: 0; transform: translateX(5px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; white-space: nowrap; }
+.floating-contact-channel:hover { width: 53px; transform: translateX(-2px); }
+.floating-contact-channel:hover > span { visibility: visible; opacity: 1; transform: translateX(0); }
+
 .development-journey { overflow: hidden; border: 1px solid #d8dfc5; border-radius: 24px; background: white; box-shadow: var(--shadow-soft); }
 .journey-phases { display: grid; grid-template-columns: repeat(3, 1fr); background: linear-gradient(110deg, #07491f, #13772d); color: white; }
 .journey-phases span { display: flex; gap: 10px; align-items: center; justify-content: center; padding: 13px 18px; border-left: 1px solid rgba(255,255,255,.18); font-size: 14px; font-weight: 800; }
@@ -569,6 +585,16 @@ a.contact-channel-card:hover { border-color: var(--green); box-shadow: 0 12px 28
 }
 
 @media (max-width: 800px) {
+  .floating-contact-rail { top: auto; right: 12px; bottom: 12px; left: 12px; display: block; }
+  .floating-contact-primary, .floating-contact-channels { display: flex; gap: 7px; justify-content: center; }
+  .floating-contact-primary { display: none; }
+  .floating-contact-channels { padding: 7px; border: 1px solid rgba(255,255,255,.35); border-radius: 18px; background: rgba(255,255,255,.92); box-shadow: 0 12px 35px rgba(10, 65, 31, .2); backdrop-filter: blur(12px); }
+  .floating-contact-channel { display: flex; width: auto; height: 43px; flex: 1; gap: 7px; justify-content: center; border-radius: 12px; box-shadow: none; }
+  .floating-contact-channel > span { position: static; visibility: visible; padding: 0; background: transparent; color: var(--green-ink); font-size: 10px; opacity: 1; transform: none; }
+  .floating-contact-channel:hover { width: auto; transform: none; }
+  .floating-contact-channel:hover > span { transform: none; }
+  .floating-contact-channel.zalo strong { width: 28px; height: 28px; font-size: 9px; }
+  .floating-promotion { right: 12px; bottom: 76px; left: 12px; width: max-content; max-width: calc(100vw - 24px); margin-left: auto; }
   .nav-shell > .button { display: none; }
   .section { padding: 48px 0; }
   .section.compact { padding: 38px 0; }
