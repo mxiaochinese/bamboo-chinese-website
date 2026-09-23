@@ -385,11 +385,10 @@ function leadPage() {
 function contactPage() {
   const channels = [
     { icon: "phone", label: "ĐIỆN THOẠI", value: "0877.271.760", href: "tel:0877271760" },
-    { icon: "envelope", label: "THƯ ĐIỆN TỬ", value: "info@mxiao.edu.vn", href: "mailto:info@mxiao.edu.vn" },
+    { icon: "envelope", label: "THƯ ĐIỆN TỬ", value: "bamboochinese.official@gmail.com", href: "mailto:bamboochinese.official@gmail.com" },
     { icon: "location", label: "CƠ SỞ ĐỐNG ĐA", value: "A1 Ngõ 15, Phố Vĩnh Hồ, Đống Đa, Hà Nội" },
     { icon: "location", label: "CƠ SỞ PHƯƠNG MAI", value: "Số 4, Ngách 19, Ngõ 167, Phố Phương Mai, Kim Liên, Hà Nội" },
     { icon: "message", label: "MESSENGER", value: "Nhắn tin với MXiao", href: "https://m.me/mxiao.chinese" },
-    { icon: "video", label: "TIKTOK", value: "@mxiaochinese.official", href: "https://www.tiktok.com/@mxiaochinese.official" },
   ];
   const channelCards = channels.map((item) => {
     const body = `<span class="contact-channel-icon">${icon(item.icon, 20)}</span><span><small>${item.label}</small><strong>${item.value}</strong></span>`;
