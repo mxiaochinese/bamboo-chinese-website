@@ -189,7 +189,7 @@ function pageHero(eyebrow, title, description, symbol = "竹") {
     "始": ["flag", "route", "sparkles"],
   };
   const heroIcons = iconSets[symbol] || ["leaf", "book", "star"];
-  return `<section class="page-hero"><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true"><span class="hero-art-path"></span>${heroIcons.map((name, index) => `<span class="hero-art-icon icon-${index + 1}">${icon(name, index === 1 ? 36 : 23)}</span>`).join("")}<span class="hero-art-dot dot-1"></span><span class="hero-art-dot dot-2"></span></div></div></section>`;
+  return `<section class="page-hero"><span class="page-hero-leaf leaf-left" aria-hidden="true"></span><span class="page-hero-leaf leaf-right" aria-hidden="true"></span><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true"><span class="hero-art-spark spark-1">${icon("sparkles", 20)}</span><span class="hero-art-spark spark-2">${icon("sparkles", 14)}</span><span class="hero-art-path"></span>${heroIcons.map((name, index) => `<span class="hero-art-icon icon-${index + 1}">${icon(name, index === 1 ? 36 : 23)}</span>`).join("")}<span class="hero-art-dot dot-1"></span><span class="hero-art-dot dot-2"></span></div></div></section>`;
 }
 
 function yctJourney() {
