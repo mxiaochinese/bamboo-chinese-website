@@ -28,28 +28,9 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Prepare project-site paths
+      - name: Prepare website
         run: |
           cp -R dist _site
-          python3 - <<'PY'
-          from pathlib import Path
-          import os, re
-
-          base = "/bamboo-chinese-website"
-          revision = os.environ["GITHUB_SHA"][:8]
-          for path in Path("_site").rglob("*"):
-              if path.is_file() and path.suffix.lower() in {".html", ".css", ".js", ".json"}:
-                  text = path.read_text(encoding="utf-8")
-                  text = re.sub(r'(["\'`])(/)(?!/)', rf'\1{base}/', text)
-                  if path.name == "app.js":
-                      text = text.replace(f'path === "{base}/"', f'path === "{base}"')
-                      escaped_base = base.replace("/", r"\/")
-                      text = text.replace(r'^\/lo-trinh\/yct-[1-6]$', rf'^{escaped_base}\/lo-trinh\/yct-[1-6]$')
-                  if path.suffix.lower() == ".html":
-                      text = re.sub(r'app\.js(?:\?v=[^"\']+)?', f'app.js?v={revision}', text)
-                      text = re.sub(r'redesign\.css(?:\?v=[^"\']+)?', f'redesign.css?v={revision}', text)
-                  path.write_text(text, encoding="utf-8")
-          PY
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
