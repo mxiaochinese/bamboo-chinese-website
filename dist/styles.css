@@ -318,7 +318,15 @@ p { margin: 0 0 18px; }
 .page-hero-grid { display: flex; align-items: end; justify-content: space-between; gap: 48px; }
 .page-hero-copy { max-width: 760px; }
 .page-hero-copy .lede { margin-top: 20px; }
-.page-hero-art { flex: 0 0 250px; display: grid; place-items: center; min-height: 180px; border-radius: 50% 50% 42% 58%; background: var(--green-soft); color: var(--green-dark); font-size: 64px; font-family: "Noto Sans SC", serif; }
+.page-hero-art { position: relative; flex: 0 0 270px; min-height: 190px; overflow: hidden; border: 1px solid rgba(8,112,43,.13); border-radius: 34px 14px 34px 14px; background: radial-gradient(circle at 80% 18%, rgba(255,255,255,.88), transparent 25%), linear-gradient(145deg, #d7f6ec, #f4f7cf); box-shadow: 0 18px 45px rgba(8,72,33,.13); }
+.hero-art-path { position: absolute; top: 80px; right: 33px; width: 200px; height: 62px; border: 5px solid var(--green); border-top: 0; border-left-color: transparent; border-radius: 0 0 60% 45%; transform: rotate(-8deg); opacity: .42; }
+.hero-art-icon { position: absolute; z-index: 2; display: grid; width: 58px; height: 58px; place-items: center; border: 5px solid white; border-radius: 20px; color: white; box-shadow: 0 12px 24px rgba(9,72,33,.18); transform: rotate(-5deg); }
+.hero-art-icon.icon-1 { bottom: 28px; left: 24px; background: #139b46; }
+.hero-art-icon.icon-2 { top: 30px; left: 102px; width: 74px; height: 74px; border-radius: 24px; background: linear-gradient(145deg, #07822d, #075522); transform: rotate(4deg); }
+.hero-art-icon.icon-3 { right: 20px; bottom: 33px; background: #ff9800; color: #3f2a00; transform: rotate(7deg); }
+.hero-art-dot { position: absolute; border-radius: 50%; background: white; box-shadow: 0 5px 12px rgba(7,80,35,.12); }
+.hero-art-dot.dot-1 { top: 27px; right: 24px; width: 15px; height: 15px; }
+.hero-art-dot.dot-2 { bottom: 24px; left: 111px; width: 10px; height: 10px; background: #ffba35; }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; color: var(--muted); font-size: 13px; }
 .breadcrumb a { color: var(--green-dark); font-weight: 700; }
 .breadcrumb span { color: #9aab9a; }
@@ -554,7 +562,7 @@ p { margin: 0 0 18px; }
   .fact-list { margin-top: 18px; }
   .page-hero { padding: 58px 0; }
   .page-hero-grid { align-items: start; flex-direction: column; }
-  .page-hero-art { flex-basis: auto; width: 150px; min-height: 120px; font-size: 42px; }
+  .page-hero-art { flex-basis: auto; width: min(270px, 100%); min-height: 176px; }
   .course-facts { grid-template-columns: repeat(2, 1fr); margin-top: 18px; }
   .course-image-frame { max-width: 560px; margin: 0 auto; }
   .article-categories { grid-template-columns: repeat(2, 1fr); }

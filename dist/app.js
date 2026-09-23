@@ -127,6 +127,11 @@ function icon(name, size = 20) {
     envelope: "fa-envelope",
     video: "fa-video",
     clock: "fa-clock",
+    heart: "fa-heart",
+    home: "fa-house",
+    newspaper: "fa-newspaper",
+    route: "fa-route",
+    sparkles: "fa-wand-magic-sparkles",
   };
   return `<i aria-hidden="true" class="fa-solid ${names[name] || names.arrow}" style="font-size:${size}px"></i>`;
 }
@@ -172,7 +177,19 @@ function shell(content) {
 }
 
 function pageHero(eyebrow, title, description, symbol = "竹") {
-  return `<section class="page-hero"><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true">${icon("book", 54)}<strong>${escapeHTML(symbol)}</strong></div></div></section>`;
+  const iconSets = {
+    "曆": ["calendar", "clock", "star"],
+    "路": ["flag", "route", "trophy"],
+    "學": ["headphones", "message", "book"],
+    "進": ["chart", "star", "trophy"],
+    "竹": ["leaf", "book", "graduation"],
+    "家": ["home", "heart", "message"],
+    "文": ["newspaper", "book", "pen"],
+    "師": ["graduation", "users", "star"],
+    "始": ["flag", "route", "sparkles"],
+  };
+  const heroIcons = iconSets[symbol] || ["leaf", "book", "star"];
+  return `<section class="page-hero"><div class="container page-hero-grid"><div class="page-hero-copy"><div class="breadcrumb">${link("Trang chủ", "/")}<span>/</span><span>${escapeHTML(title)}</span></div><p class="eyebrow">${escapeHTML(eyebrow)}</p><h1>${escapeHTML(title)}</h1><p class="lede">${escapeHTML(description)}</p></div><div class="page-hero-art" aria-hidden="true"><span class="hero-art-path"></span>${heroIcons.map((name, index) => `<span class="hero-art-icon icon-${index + 1}">${icon(name, index === 1 ? 36 : 23)}</span>`).join("")}<span class="hero-art-dot dot-1"></span><span class="hero-art-dot dot-2"></span></div></div></section>`;
 }
 
 function yctJourney() {
@@ -346,7 +363,7 @@ function coursePage(course) {
 }
 
 function editorialPage(kind) {
-  if (kind === "teach") return shell(`${pageHero("CÁCH BAMBOO DẠY", "Học thế nào tại Bamboo?", "Học, ôn tập và đánh giá theo từng cấp độ.", "學")}<section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">MỘT BUỔI HỌC</p><h2>Tương tác, thực hành và lặp lại.</h2></div><div class="editorial-grid"><article class="editorial-card"><div class="editorial-icon">聽</div><h3>Nghe và nói</h3><p>Nhận diện âm thanh, luyện phản xạ.</p></article><article class="editorial-card"><div class="editorial-icon">讀</div><h3>Đọc và viết</h3><p>Đọc hiểu và viết theo từng chủ đề.</p></article><article class="editorial-card"><div class="editorial-icon">小</div><h3>Lớp nhỏ</h3><p>6 bạn trực tuyến, 8 bạn trực tiếp.</p></article></div></div></section><section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">NHỊP HỌC</p><h2>Học - Ôn tập - Đánh giá</h2></div>${rhythmCards()}</div></section><section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">BẮT ĐẦU TỪ ĐÂY</p><h2>Chọn lộ trình phù hợp cho con.</h2>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
+  if (kind === "teach") return shell(`${pageHero("CÁCH BAMBOO DẠY", "Học thế nào tại Bamboo?", "Học, ôn tập và đánh giá theo từng cấp độ.", "學")}<section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">MỘT BUỔI HỌC</p><h2>Tương tác, thực hành và lặp lại.</h2></div><div class="editorial-grid"><article class="editorial-card"><div class="editorial-icon">${icon("headphones", 25)}</div><h3>Nghe và nói</h3><p>Nhận diện âm thanh, luyện phản xạ.</p></article><article class="editorial-card"><div class="editorial-icon">${icon("book", 25)}</div><h3>Đọc và viết</h3><p>Đọc hiểu và viết theo từng chủ đề.</p></article><article class="editorial-card"><div class="editorial-icon">${icon("users", 25)}</div><h3>Lớp nhỏ</h3><p>6 bạn trực tuyến, 8 bạn trực tiếp.</p></article></div></div></section><section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">NHỊP HỌC</p><h2>Học - Ôn tập - Đánh giá</h2></div>${rhythmCards()}</div></section><section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">BẮT ĐẦU TỪ ĐÂY</p><h2>Chọn lộ trình phù hợp cho con.</h2>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
   if (kind === "progress") return shell(`${pageHero("TIẾN BỘ CỦA CON", "Tiến bộ của con", "Theo dõi nội dung học, ôn tập và bước tiếp theo.", "進")}<section class="section"><div class="container">${progressPreview()}</div></section><section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">BỐN KỸ NĂNG</p><h2>Tiến bộ qua từng chặng.</h2></div><div class="editorial-grid"><article class="editorial-card"><div class="number">01</div><h3>Nghe</h3><p>Tiếp nhận và củng cố nội dung.</p></article><article class="editorial-card"><div class="number">02</div><h3>Nói</h3><p>Thực hành và tăng phản xạ.</p></article><article class="editorial-card"><div class="number">03</div><h3>Đọc - Viết</h3><p>Phát triển theo lộ trình YCT.</p></article></div></div></section><section class="section compact"><div class="container"><div class="cta-banner"><p class="eyebrow">CẦN TƯ VẤN</p><h2>Chọn bước tiếp theo cho con.</h2>${link("Tìm lớp cho con", "/tim-lop-cho-con", "button light")}</div></div></section>`);
   return shell(`${pageHero("VỀ BAMBOO", "Bamboo Chinese là gì?", "Tiếng Trung cho trẻ 6-12 tuổi, phát triển bởi MXiao Chinese.", "竹")}<section class="section"><div class="container about-grid"><div class="about-image"><img src="/assets/brand-visual-reference.png" alt="Không gian hình ảnh Bamboo Chinese" loading="lazy"></div><div class="about-copy"><p class="eyebrow">BAMBOO CHINESE × MXIAO CHINESE</p><h2>Chuyên môn vững vàng, trải nghiệm dành riêng cho trẻ.</h2><p>Lộ trình YCT liền mạch, lớp nhỏ và phương pháp phù hợp với lứa tuổi.</p>${link("Xem lộ trình YCT", "/lo-trinh", "button primary")}</div></div></section><section class="section tint"><div class="container"><div class="section-heading center"><p class="eyebrow">KHÔNG GIAN BAMBOO</p><h2>Không gian tươi sáng, ấm áp và gần gũi với trẻ.</h2></div></div></section>`);
 }

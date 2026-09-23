@@ -353,7 +353,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .cta-banner p { color: rgba(255, 255, 255, .88); }
 
 .page-hero { padding: 62px 0; background: linear-gradient(125deg, var(--sky), #eef7dc); }
-.page-hero-art { background: var(--green-dark); color: white; }
+.page-hero-art { color: white; }
 .course-hero { background: linear-gradient(125deg, var(--sky), #fff0cd); }
 .course-hero-grid { min-height: 500px; }
 .course-image-frame.book-frame { display: grid; height: 465px; place-items: center; border: 0; background: var(--cream); }
