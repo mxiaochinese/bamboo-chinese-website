@@ -542,6 +542,7 @@ a.contact-channel-card:hover { border-color: var(--green); box-shadow: 0 12px 28
 }
 
 @media (max-width: 1120px) {
+  .page-hero-copy h1 { font-size: clamp(43px, 5.7vw, 60px); }
   .desktop-nav { display: none; }
   .nav-shell > .button { display: inline-flex; margin-left: auto; }
   .mobile-toggle { display: inline-grid; place-items: center; }
@@ -585,6 +586,8 @@ a.contact-channel-card:hover { border-color: var(--green); box-shadow: 0 12px 28
 }
 
 @media (max-width: 800px) {
+  .page-hero-copy h1 { max-width: 720px; font-size: clamp(40px, 8vw, 54px); }
+  .page-hero::before { left: auto; right: -70px; }
   .floating-contact-rail { top: auto; right: 12px; bottom: 12px; left: 12px; display: block; }
   .floating-contact-primary, .floating-contact-channels { display: flex; gap: 7px; justify-content: center; }
   .floating-contact-primary { display: none; }
@@ -664,7 +667,10 @@ a.contact-channel-card:hover { border-color: var(--green); box-shadow: 0 12px 28
 
 @media (max-width: 520px) {
   body { font-size: 16px; }
-  h1 { font-size: 48px; }
+  h1 { font-size: 45px; }
+  .page-hero-copy h1 { font-size: clamp(36px, 11vw, 45px); line-height: 1.05; }
+  .page-hero { padding: 42px 0; }
+  .page-hero-grid { gap: 26px; }
   h2 { font-size: 35px; }
   .site-header .brand-logo { width: 104px; }
   .hero-visual { height: auto; min-height: 0; border-width: 5px; border-radius: 20px 8px 20px 8px; box-shadow: 10px 10px 0 rgba(255, 153, 0, .20), var(--shadow-soft); }
