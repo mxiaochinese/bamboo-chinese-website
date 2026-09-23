@@ -17,8 +17,8 @@ const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, (character
 
 const formatPrice = (value) => `${Number(value).toLocaleString("vi-VN")}đ`;
 const discountedPrice = (course) => course.pricing.listPrice - course.pricing.discountAmount;
-const PROMOTION_STORAGE_KEY = "bamboo-promotion-cycle-v1";
-const PROMOTION_DURATION_MS = 48 * 60 * 60 * 1000;
+const PROMOTION_STORAGE_KEY = "bamboo-promotion-cycle-v2";
+const PROMOTION_DURATION_MS = 8 * 60 * 60 * 1000;
 const PROMOTION_COOLDOWN_MS = 20 * 24 * 60 * 60 * 1000;
 const levelPath = (level) => `/lo-trinh/yct-${level}`;
 const courseImage = (level, kind = "journey") => `/assets/courses/yct-${level}-${kind}.jpg`;

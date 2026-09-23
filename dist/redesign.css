@@ -112,7 +112,7 @@ h3 { font-size: clamp(21px, 2vw, 28px); }
 .price-value .promo-countdown { margin-top: 6px; }
 .shelf-link { display: flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--green-dark); font-size: 12px; font-weight: 800; }
 
-/* Shared 48-hour offer: a compact floating entry point plus the full clock on course pages. */
+/* Shared 8-hour offer: a compact floating entry point plus the full clock on course pages. */
 .promo-clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; font-variant-numeric: tabular-nums; }
 .promo-clock[hidden], .floating-promotion[hidden] { display: none !important; }
 .promo-clock-unit { display: grid; min-width: 48px; place-items: center; padding: 7px 5px 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 13px; background: rgba(255,255,255,.11); }
